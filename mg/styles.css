@@ -61,6 +61,9 @@ body{
   color: var(--text);
 }
 
+/* Prevent long strings/URLs from blowing up the layout */
+p, li, blockquote, td, th{ overflow-wrap: anywhere; word-break: normal; }
+
 ::selection{ background: rgba(47,126,122,0.18); }
 
 /* Links: readable & calm */
@@ -81,6 +84,9 @@ a:focus{
   width: min(var(--wrap), calc(100% - 40px));
   margin: 0 auto;
 }
+
+/* Media elements should never overflow on small screens */
+img, video, svg, canvas{ max-width: 100%; height: auto; }
 
 .skip-link{
   position: absolute;
@@ -374,6 +380,10 @@ pre{
   border: 1px solid var(--line) !important;
   color: var(--text) !important;
   box-shadow: 0 10px 22px rgba(30,42,43,0.08);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 12px 14px;
+  border-radius: 14px;
 }
 
 .site-footer{
@@ -401,4 +411,46 @@ pre{
 @media (prefers-reduced-motion: reduce){
   *{ scroll-behavior: auto !important; transition: none !important; animation: none !important; }
   .button:hover{ transform: none !important; }
+}
+
+/* =========================
+   Mobile-first refinements
+   - Keep content identical; improve layout behavior on small screens
+========================= */
+
+@media (max-width: 720px){
+  .wrap{ width: calc(100% - 24px); }
+
+  .header-inner{ padding: 14px 0 10px; gap: 10px; }
+  .brand-title{ font-size: 16px; }
+  .brand-tagline{ font-size: 12px; }
+
+  /* Make the long menu usable: single-line horizontal scroll */
+  .site-nav{
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px;
+    gap: 8px;
+  }
+  .site-nav a{ flex: 0 0 auto; white-space: nowrap; padding: 9px 12px; }
+
+  .hero{ padding: 18px; border-radius: 18px; }
+  .card{ padding: 16px; }
+  .step{ padding: 12px 12px 10px; }
+  .quote{ padding: 12px 14px; }
+
+  /* Tables on small screens: allow horizontal scroll */
+  .table{ display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .table th, .table td{ white-space: nowrap; }
+}
+
+@media (max-width: 520px){
+  /* Buttons stack nicely and remain easy to tap */
+  .card .actions{ flex-direction: column; align-items: stretch; }
+  .button{ width: 100%; }
+
+  /* Slightly tighter headings so they don't feel huge on small phones */
+  h1{ line-height: 1.2; }
 }
