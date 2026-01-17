@@ -1,0 +1,7 @@
+Prototype pages share the same header/footer.
+All design is centralized in /global/assets/css/site.css.
+
+Local preview:
+  # run from the directory that contains the `global/` folder
+  python3 -m http.server 8080
+  open http://localhost:8080/global/
