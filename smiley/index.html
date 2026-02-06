@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webインタビュー参加に関する事前確認</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>卵巣がんと診断されたことのある方へ</h1>
+            <p class="subtitle">Webインタビュー参加に関する事前確認</p>
+            <p class="description">あなたの声を、これからの医療につなげるために。<br>お気持ちに寄り添いながら、お話を伺えればと思っています。</p>
+        </header>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <!-- Question Screen -->
+        <div id="questionScreen" class="screen active">
+            <div class="question-card">
+                <div class="question-number" id="questionNumber">質問 1/7</div>
+                <h2 class="question-text" id="questionText"></h2>
+                
+                <div class="button-group">
+                    <button class="btn btn-yes" id="yesBtn">はい</button>
+                    <button class="btn btn-no" id="noBtn">いいえ</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen Out Screen -->
+        <div id="screenOutScreen" class="screen">
+            <div class="result-card">
+                <div class="icon-wrapper">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                        <path d="M12 8v4M12 16h.01" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h2>ご回答ありがとうございました</h2>
+                <p class="message">
+                    お時間を割いてご回答いただき、本当にありがとうございました。<br><br>
+                    今回のインタビューでは、お話を伺う条件が限られており、<br>
+                    大変恐縮ではございますが、今回はご参加をお願いできない<br>
+                    という結果となりました。<br><br>
+                    これからも、あなたらしく過ごされることを<br>
+                    心よりお祈りしております。
+                </p>
+            </div>
+        </div>
+
+        <!-- Application Form Screen -->
+        <div id="applicationScreen" class="screen">
+            <div class="result-card">
+                <div class="icon-wrapper success">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                        <path d="M9 12l2 2 4-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h2>ありがとうございます</h2>
+                <p class="intro-text">
+                    お忙しい中、ご協力いただけること、心より感謝申し上げます。<br><br>
+                    あなたの体験やお気持ちを、これからの医療に生かすことができればと願っています。<br>
+                    インタビューはカメラOFFで行いますので、どうぞリラックスしてご参加ください。<br><br>
+                    以下の情報をご入力のうえ、「お申し込み」ボタンを押してください。
+                </p>
+
+                <form id="applicationForm" class="application-form">
+                    <div class="form-group">
+                        <label for="name">お名前 <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required placeholder="山田 太郎">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">メールアドレス <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required placeholder="example@email.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">電話番号 <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" required placeholder="090-1234-5678">
+                    </div>
+
+                    <div class="consent-notice">
+                        <p>
+                            <strong>個人情報の取り扱いについて</strong><br>
+                            このメールを送信することで、卵巣がん体験者の会スマイリーから、株式会社シード・プランニングへ、上記の個人情報がインタビュー参加に関する目的に限って共有されることに同意したものとみなされます。<br><br>
+                            <span class="privacy-note">※シード・プランニングはプライバシーマーク認定企業です。個人情報は厳重に管理され、インタビュー内容があなた個人を特定できる形で企業に共有されることは一切ありません。</span>
+                        </p>
+                    </div>
+
+                    <button type="submit" class="btn btn-submit">お申し込み</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>卵巣がん体験者の会スマイリー</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
