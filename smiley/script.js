@@ -23,7 +23,7 @@ const questions = [
     },
     {
         id: 6,
-        text: "2025年3月3日～3月13日の間に、60分程度のWebインタビュー（カメラOFF）にご参加いただくご意思はありますか？<br><small style='display:block; margin-top:10px; color:#5a6c7d;'>※PCまたはiPad等の端末が必要です（スマートフォンのみ不可）<br>※インタビュー終了までご協力いただけた場合、謝意として20,000円のお振込み又は同額分のAmazonギフトを進呈をさせていただきます。</small>"
+        text: "2026年3月3日～3月13日の間に、60分程度のWebインタビュー（カメラOFF）にご参加いただくご意思はありますか？<br><small style='display:block; margin-top:10px; color:#5a6c7d;'>※PCまたはiPad等の端末が必要です（スマートフォンのみ不可）<br>※インタビュー終了までご協力いただけた場合、謝意として20,000円のお振込み又は同額分のAmazonギフトを進呈をさせていただきます。</small>"
     },
     {
         id: 7,
