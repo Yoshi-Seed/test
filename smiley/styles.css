@@ -186,6 +186,33 @@ body {
     transform: translateY(0);
 }
 
+/* Reversed button styles for Q1 */
+.btn-reversed {
+    background: var(--card-background) !important;
+    color: var(--text-secondary) !important;
+    border-color: var(--border-color) !important;
+    box-shadow: none !important;
+    opacity: 0.7;
+}
+
+.btn-reversed:hover {
+    background: #f5f0eb !important;
+    border-color: #d4cac1 !important;
+    opacity: 0.8;
+}
+
+.btn-primary {
+    background: var(--primary-color) !important;
+    color: white !important;
+    box-shadow: 0 2px 8px rgba(230, 154, 141, 0.2) !important;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark) !important;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover) !important;
+}
+
 /* Result Card */
 .result-card {
     background: var(--card-background);

@@ -2,7 +2,8 @@
 const questions = [
     {
         id: 1,
-        text: "このインタビューには特定のお仕事をされている方の参加をご遠慮いただいております。<br><br><strong>あなたは、製薬会社またはマスコミ以外でお勤めですか？</strong><br><br><small style='display:block; margin-top:12px; color:#8b7970; line-height:1.7;'>※製薬会社・マスコミにお勤めの方は、大変恐れ入りますが「いいえ」を選択してください<br>※それ以外の方（主婦・パート・会社員など）は「はい」を選択してください</small>"
+        text: "このインタビューには特定のお仕事をされている方の参加をご遠慮いただいております。<br><br><strong>以下に該当するお仕事をされていますか？</strong><br><br><div style='margin: 16px 0; padding-left: 20px;'>1. 製薬会社<br>2. マスコミ</div><br><small style='display:block; margin-top:12px; color:#8b7970; line-height:1.7;'>※製薬会社・マスコミにお勤めの方は、大変恐れ入りますが「<strong>はい</strong>」を選択してください<br>※それ以外の方（主婦・パート・会社員・お仕事をしていないなど）は「<strong>いいえ</strong>」を選択してください</small>",
+        isReversed: true
     },
     {
         id: 2,
@@ -26,7 +27,7 @@ const questions = [
     },
     {
         id: 7,
-        text: "今回のインタビュー実施に必要な事務連絡を目的として、お名前・メールアドレスを、調査実施会社である株式会社シード・プランニングに共有することに同意いただけますか？"
+        text: "今回のインタビュー実施に必要な事務連絡を目的として、お名前・メールアドレス・お電話番号を、調査実施会社である株式会社シード・プランニングに共有することに同意いただけますか？"
     }
 ];
 
@@ -66,6 +67,15 @@ function showQuestion(index) {
     // Enable buttons
     yesBtn.disabled = false;
     noBtn.disabled = false;
+    
+    // Apply special styling for Q1 (reversed logic)
+    if (question.isReversed) {
+        yesBtn.classList.add('btn-reversed');
+        noBtn.classList.add('btn-primary');
+    } else {
+        yesBtn.classList.remove('btn-reversed');
+        noBtn.classList.remove('btn-primary');
+    }
 }
 
 // Update progress bar
@@ -91,18 +101,27 @@ function handleYes() {
         yesBtn.style.transform = '';
     }, 150);
 
-    // Move to next question after delay
-    setTimeout(() => {
-        currentQuestionIndex++;
-        updateProgress();
-        
-        if (currentQuestionIndex < questions.length) {
-            showQuestion(currentQuestionIndex);
-        } else {
-            // All questions answered with Yes
-            showApplicationForm();
-        }
-    }, 400);
+    // Check if this question has reversed logic (Q1)
+    const currentQuestion = questions[currentQuestionIndex];
+    if (currentQuestion.isReversed) {
+        // For Q1: "Yes" means screen out (pharma/media worker)
+        setTimeout(() => {
+            showScreenOut();
+        }, 400);
+    } else {
+        // Normal logic: "Yes" continues to next question
+        setTimeout(() => {
+            currentQuestionIndex++;
+            updateProgress();
+            
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(currentQuestionIndex);
+            } else {
+                // All questions answered with Yes
+                showApplicationForm();
+            }
+        }, 400);
+    }
 }
 
 // Handle No button click
@@ -122,10 +141,26 @@ function handleNo() {
         noBtn.style.transform = '';
     }, 150);
 
-    // Show screen out after delay
-    setTimeout(() => {
-        showScreenOut();
-    }, 400);
+    // Check if this question has reversed logic (Q1)
+    const currentQuestion = questions[currentQuestionIndex];
+    if (currentQuestion.isReversed) {
+        // For Q1: "No" means continue (not pharma/media worker)
+        setTimeout(() => {
+            currentQuestionIndex++;
+            updateProgress();
+            
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(currentQuestionIndex);
+            } else {
+                showApplicationForm();
+            }
+        }, 400);
+    } else {
+        // Normal logic: "No" screens out
+        setTimeout(() => {
+            showScreenOut();
+        }, 400);
+    }
 }
 
 // Show screen out screen
