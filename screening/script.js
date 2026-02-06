@@ -2,7 +2,7 @@
 const questions = [
     {
         id: 1,
-        text: "このインタビューには特定のお仕事をされている方が除外されます。ご理解ください。<br><br>あなたは、<strong>製薬会社またはマスコミで勤務されていますか？</strong><br><small style='display:block; margin-top:12px; color:#8b7970; line-height:1.7;'>※勤務されている場合は「いいえ」を選択してください</small>"
+        text: "このインタビューには特定のお仕事をされている方の参加をご遠慮いただいております。<br><br><strong>あなたは、製薬会社またはマスコミ以外でお勤めですか？</strong><br><br><small style='display:block; margin-top:12px; color:#8b7970; line-height:1.7;'>※製薬会社・マスコミにお勤めの方は、大変恐れ入りますが「いいえ」を選択してください<br>※それ以外の方（主婦・パート・会社員など）は「はい」を選択してください</small>"
     },
     {
         id: 2,
