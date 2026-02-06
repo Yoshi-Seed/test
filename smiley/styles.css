@@ -348,6 +348,27 @@ body {
     margin-bottom: 8px;
 }
 
+.mail-instruction {
+    background: linear-gradient(135deg, #fff4ed 0%, #ffe8d6 100%);
+    border: 2px solid var(--primary-color);
+    padding: 20px 24px;
+    margin: 20px 0;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(230, 154, 141, 0.15);
+}
+
+.mail-instruction p {
+    color: var(--text-primary);
+    font-size: 1rem;
+    line-height: 1.8;
+    margin: 0;
+}
+
+.mail-instruction strong {
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
 .btn-submit {
     width: 100%;
     background: var(--success-color);
