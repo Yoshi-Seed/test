@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>卵巣がんWebインタビュースクリーニング - 全画面確認用</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #e69a8d;
+            --primary-dark: #d97b6e;
+            --secondary-color: #f5b5a8;
+            --success-color: #a8d5ba;
+            --accent-warm: #fff4ed;
+            --text-primary: #5a4a42;
+            --text-secondary: #8b7970;
+            --background: #fff9f5;
+            --card-background: #ffffff;
+            --border-color: #f0e5dd;
+            --shadow: 0 2px 12px rgba(230, 154, 141, 0.15);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 
+                         'Hiragino Kaku Gothic ProN', 'Yu Gothic', Meiryo, sans-serif;
+            background: linear-gradient(135deg, #fff9f5 0%, #fef1e9 100%);
+            color: var(--text-primary);
+            line-height: 1.9;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Page Sections */
+        .page-section {
+            background: var(--card-background);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--border-color);
+        }
+
+        .page-title {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .logic-note {
+            background: linear-gradient(135deg, #fff4ed 0%, #ffe8d6 100%);
+            border-left: 4px solid var(--primary-color);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .logic-note strong {
+            color: var(--primary-dark);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 40px 30px;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent-warm) 100%);
+            border-radius: 16px;
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+
+        .header .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-bottom: 16px;
+        }
+
+        .header .description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Question Display */
+        .question-card {
+            background: var(--accent-warm);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        .question-number {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .question-text {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            font-weight: 500;
+            line-height: 1.85;
+            margin-bottom: 20px;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 16px 32px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-yes {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 2px 8px rgba(230, 154, 141, 0.2);
+        }
+
+        .btn-no {
+            background: var(--card-background);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        /* Q1 Special Styles */
+        .btn-reversed {
+            background: var(--card-background);
+            color: var(--text-secondary);
+            border-color: var(--border-color);
+            opacity: 0.7;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 2px 8px rgba(230, 154, 141, 0.2);
+        }
+
+        /* Screen Out Screen */
+        .result-card {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .icon-wrapper {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--accent-warm) 0%, var(--border-color) 100%);
+            border-radius: 50%;
+        }
+
+        .icon-wrapper.success {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+        }
+
+        .icon {
+            width: 40px;
+            height: 40px;
+            color: var(--primary-color);
+        }
+
+        .icon-wrapper.success .icon {
+            color: var(--success-color);
+        }
+
+        .result-card h2 {
+            color: var(--text-primary);
+            font-size: 1.8rem;
+            margin-bottom: 24px;
+        }
+
+        .message {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.9;
+            margin-bottom: 20px;
+        }
+
+        /* Application Form */
+        .intro-text {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .application-form {
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .required {
+            color: var(--primary-color);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .consent-notice {
+            background: var(--accent-warm);
+            border-left: 4px solid var(--primary-color);
+            padding: 24px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+
+        .consent-notice p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .privacy-note {
+            display: block;
+            margin-top: 12px;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .mail-instruction {
+            background: linear-gradient(135deg, #fff4ed 0%, #ffe8d6 100%);
+            border: 2px solid var(--primary-color);
+            padding: 20px 24px;
+            margin: 20px 0;
+            border-radius: 12px;
+        }
+
+        .mail-instruction p {
+            color: var(--text-primary);
+            font-size: 1rem;
+            line-height: 1.8;
+            margin: 0;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--success-color);
+            color: #2d5a3d;
+            padding: 20px 32px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 2px 8px rgba(168, 213, 186, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Progress Indicator */
+        .progress-indicator {
+            background: var(--accent-warm);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; color: var(--primary-color); margin-bottom: 40px; font-size: 2.5rem;">
+            卵巣がんWebインタビュースクリーニング<br>
+            <span style="font-size: 1.2rem; color: var(--text-secondary);">全画面確認用（1ページ版）</span>
+        </h1>
+
+        <!-- ========================================
+             ページ1: ヘッダー画面
+             ======================================== -->
+        <div class="page-section">
+            <div class="page-title">📋 ページ1: 開始画面</div>
+            
+            <div class="header">
+                <h1>卵巣がんと診断されたことのある方へ</h1>
+                <p class="subtitle">Webインタビュー参加に関する事前確認</p>
+                <p class="description">
+                    あなたの声を、これからの医療につなげるために。<br>
+                    お気持ちに寄り添いながら、お話を伺えればと思っています。
+                </p>
+            </div>
+
+            <div class="logic-note">
+                <strong>🔄 画面の流れ</strong>
+                ここから7つの質問が始まります。<br>
+                各質問に「はい」または「いいえ」で回答していただきます。
+            </div>
+        </div>
+
+        <!-- ========================================
+             ページ2: 質問画面（Q1-Q7）
+             ======================================== -->
+        <div class="page-section">
+            <div class="page-title">📝 ページ2: スクリーニング質問（全7問）</div>
+            
+            <div class="progress-indicator">質問の進行状況が表示されます</div>
+
+            <!-- Q1 -->
+            <div class="question-card">
+                <div class="question-number">質問 1/7</div>
+                <div class="question-text">
+                    このインタビューには特定のお仕事をされている方の参加をご遠慮いただいております。<br><br>
+                    <strong>以下に該当するお仕事をされていますか？</strong><br><br>
+                    <div style='margin: 16px 0; padding-left: 20px;'>1. 製薬会社<br>2. マスコミ</div><br>
+                    <small style='display:block; margin-top:12px; color:#8b7970; line-height:1.7;'>
+                        ※製薬会社・マスコミにお勤めの方は、大変恐れ入りますが「<strong>はい</strong>」を選択してください<br>
+                        ※それ以外の方（主婦・パート・会社員・お仕事をしていないなど）は「<strong>いいえ</strong>」を選択してください
+                    </small>
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-reversed">はい（グレー表示）</button>
+                    <button class="btn btn-primary">いいえ（強調表示）</button>
+                </div>
+            </div>
+
+            <div class="logic-note">
+                <strong>⚙️ Q1のロジック（特殊な逆ロジック）</strong>
+                • 「はい」を選択した場合 → <strong style="color: #d97b6e;">スクリーンアウト画面へ（ページ3-A）</strong><br>
+                • 「いいえ」を選択した場合 → <strong style="color: #5a9e6f;">次の質問（Q2）へ進む</strong><br>
+                <br>
+                <em>※Q1のみ、ボタンの色を変えて視覚的にガイダンスしています</em>
+            </div>
+
+            <!-- Q2 -->
+            <div class="question-card">
+                <div class="question-number">質問 2/7</div>
+                <div class="question-text">
+                    インタビューで見たり聞いたりする情報を他に共有しない同意書に別途ご同意が必要です。<br><br>
+                    同時に、あなたの情報も機密情報として適切に管理されます。<br><br>
+                    ご理解いただけますか？
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-yes">はい</button>
+                    <button class="btn btn-no">いいえ</button>
+                </div>
+            </div>
+
+            <div class="logic-note">
+                <strong>⚙️ Q2のロジック（通常ロジック）</strong>
+                • 「はい」を選択した場合 → <strong style="color: #5a9e6f;">次の質問（Q3）へ進む</strong><br>
+                • 「いいえ」を選択した場合 → <strong style="color: #d97b6e;">スクリーンアウト画面へ（ページ3-A）</strong>
+            </div>
+
+            <!-- Q3 -->
+            <div class="question-card">
+                <div class="question-number">質問 3/7</div>
+                <div class="question-text">
+                    卵巣がん（タイプは問いません）と診断を受けたことがありますか？
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-yes">はい</button>
+                    <button class="btn btn-no">いいえ</button>
+                </div>
+            </div>
+
+            <div class="logic-note">
+                <strong>⚙️ Q3のロジック（通常ロジック）</strong>
+                • 「はい」を選択した場合 → <strong style="color: #5a9e6f;">次の質問（Q4）へ進む</strong><br>
+                • 「いいえ」を選択した場合 → <strong style="color: #d97b6e;">スクリーンアウト画面へ（ページ3-A）</strong>
+            </div>
+
+            <!-- Q4 -->
+            <div class="question-card">
+                <div class="question-number">質問 4/7</div>
+                <div class="question-text">
+                    卵巣がんと診断されたのは、10年以内（2015年以降）ですか？
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-yes">はい</button>
+                    <button class="btn btn-no">いいえ</button>
+                </div>
+            </div>
+
+            <div class="logic-note">
+                <strong>⚙️ Q4のロジック（通常ロジック）</strong>
+                • 「はい」を選択した場合 → <strong style="color: #5a9e6f;">次の質問（Q5）へ進む</strong><br>
+                • 「いいえ」を選択した場合 → <strong style="color: #d97b6e;">スクリーンアウト画面へ（ページ3-A）</strong>
+            </div>
+
+            <!-- Q5 -->
+            <div class="question-card">
+                <div class="question-number">質問 5/7</div>
+                <div class="question-text">
+                    現在、医療機関に通院し、薬による治療を受けていますか？
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-yes">はい</button>
+                    <button class="btn btn-no">いいえ</button>
+                </div>
+            </div>
+
+            <div class="logic-note">
+                <strong>⚙️ Q5のロジック（通常ロジック）</strong>
+                • 「はい」を選択した場合 → <strong style="color: #5a9e6f;">次の質問（Q6）へ進む</strong><br>
+                • 「いいえ」を選択した場合 → <strong style="color: #d97b6e;">スクリーンアウト画面へ（ページ3-A）</strong>
+            </div>
+
+            <!-- Q6 -->
+            <div class="question-card">
+                <div class="question-number">質問 6/7</div>
+                <div class="question-text">
+                    2025年3月3日～3月13日の間に、60分程度のWebインタビュー（カメラOFF）にご参加いただくご意思はありますか？<br>
+                    <small style='display:block; margin-top:10px; color:#5a6c7d;'>
+                        ※PCまたはiPad等の端末が必要です（スマートフォンのみ不可）<br>
+                        ※インタビュー終了までご協力いただけた場合、謝意として20,000円のお振込み・Amazonギフトの進呈をさせていただきます。
+                    </small>
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-yes">はい</button>
+                    <button class="btn btn-no">いいえ</button>
+                </div>
+            </div>
+
+            <div class="logic-note">
+                <strong>⚙️ Q6のロジック（通常ロジック）</strong>
+                • 「はい」を選択した場合 → <strong style="color: #5a9e6f;">次の質問（Q7）へ進む</strong><br>
+                • 「いいえ」を選択した場合 → <strong style="color: #d97b6e;">スクリーンアウト画面へ（ページ3-A）</strong><br>
+                <br>
+                <em>💰 Q6には謝礼情報（20,000円またはAmazonギフト）が記載されています</em>
+            </div>
+
+            <!-- Q7 -->
+            <div class="question-card">
+                <div class="question-number">質問 7/7</div>
+                <div class="question-text">
+                    今回のインタビュー実施に必要な事務連絡を目的として、お名前・メールアドレス・お電話番号を、調査実施会社である株式会社シード・プランニングに共有することに同意いただけますか？
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-yes">はい</button>
+                    <button class="btn btn-no">いいえ</button>
+                </div>
+            </div>
+
+            <div class="logic-note">
+                <strong>⚙️ Q7のロジック（最終質問）</strong>
+                • 「はい」を選択した場合 → <strong style="color: #5a9e6f;">申し込みフォーム画面へ（ページ3-B）</strong><br>
+                • 「いいえ」を選択した場合 → <strong style="color: #d97b6e;">スクリーンアウト画面へ（ページ3-A）</strong><br>
+                <br>
+                <em>✅ すべての質問に「はい」と回答した方のみ申し込みフォームに進めます</em>
+            </div>
+        </div>
+
+        <!-- ========================================
+             ページ3-A: スクリーンアウト画面
+             ======================================== -->
+        <div class="page-section" style="background: #fff9f5;">
+            <div class="page-title" style="background: linear-gradient(135deg, #8b7970, #a0958d);">
+                ❌ ページ3-A: スクリーンアウト画面（いずれかの質問で「いいえ」の場合）
+            </div>
+            
+            <div class="result-card">
+                <div class="icon-wrapper">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                        <path d="M12 8v4M12 16h.01" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h2>ご回答ありがとうございました</h2>
+                <p class="message">
+                    お時間を割いてご回答いただき、本当にありがとうございました。<br><br>
+                    今回のインタビューでは、お話を伺う条件が限られており、<br>
+                    大変恐縮ではございますが、今回はご参加をお願いできない<br>
+                    という結果となりました。<br><br>
+                    これからも、あなたらしく過ごされることを<br>
+                    心よりお祈りしております。<br>
+                    またこの様な機会がありましたら、ぜひご協力をお願いいたします。<br>
+                </p>
+            </div>
+
+            <div class="logic-note">
+                <strong>🔚 ここで終了</strong>
+                Q1で「はい」、またはQ2-Q7のいずれかで「いいえ」を選択した場合、この画面が表示されます。<br>
+                温かく丁寧な言葉で、参加できないことをお伝えします。
+            </div>
+        </div>
+
+        <!-- ========================================
+             ページ3-B: 申し込みフォーム画面
+             ======================================== -->
+        <div class="page-section" style="background: #f0f9f5;">
+            <div class="page-title" style="background: linear-gradient(135deg, var(--success-color), #8bc9a3);">
+                ✅ ページ3-B: 申し込みフォーム画面（すべて「はい」の場合）
+            </div>
+            
+            <div class="result-card">
+                <div class="icon-wrapper success">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                        <path d="M9 12l2 2 4-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h2>ありがとうございます</h2>
+                <p class="intro-text">
+                    お忙しい中、ご協力いただけること、心より感謝申し上げます。<br><br>
+                    あなたの体験やお気持ちを、これからの医療に生かすことができればと願っています。<br>
+                    インタビューはカメラOFFで行いますので、どうぞリラックスしてご参加ください。<br><br>
+                    以下の情報をご入力のうえ、「申し込み」ボタンを押してください。<br><br>
+                    申し込みをいただいてから、3営業日以内にメールでご連絡させていただきます。<br>
+                    ※多数のお申込みをいただいた場合、大変申し訳ありませんが対象となれない事もございます。
+                </p>
+
+                <form class="application-form">
+                    <div class="form-group">
+                        <label for="name">お名前 <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required placeholder="山田 友子">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">メールアドレス <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required placeholder="medb3@seedplanning.co.jp">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">電話番号 <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" required placeholder="090-1234-5678">
+                    </div>
+
+                    <div class="consent-notice">
+                        <p>
+                            <strong>個人情報の取り扱いについて</strong><br>
+                            このメールを送信することで、卵巣がん体験者の会スマイリーから、株式会社シード・プランニングへ、上記の個人情報がインタビュー参加に関する目的に限って共有されることに同意したものとみなされます。<br><br>
+                            <span class="privacy-note">※シード・プランニングはプライバシーマーク認定企業です。個人情報は厳重に管理され、インタビュー内容があなた個人を特定できる形で企業に共有されることは一切ありません。</span>
+                        </p>
+                    </div>
+
+                    <div class="mail-instruction">
+                        <p>
+                            <strong>📧 お申し込み方法</strong><br>
+                            「お申し込み」ボタンをクリックすると、<strong>あなたがお使いのメールアプリが開きます。</strong><br>
+                            そのまま<strong>メールを送信</strong>してください。
+                        </p>
+                    </div>
+
+                    <button type="button" class="btn-submit">お申し込み</button>
+                </form>
+            </div>
+
+            <div class="logic-note">
+                <strong>📧 メール送信の仕組み</strong>
+                • 送信先: <code>medb3@seedplanning.co.jp</code><br>
+                • 件名: 卵巣がんのインタビュー申込<br>
+                • 本文: 入力された名前・メールアドレス・電話番号が自動的に記載されます<br>
+                <br>
+                <em>✅ Q1で「いいえ」、かつQ2-Q7すべてで「はい」を選択した方のみこの画面に到達します</em>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Webインタビュー参加への事前確認</p>
+            <p style="margin-top: 10px; font-size: 0.85rem;">このページは全画面確認用の1ページ版です</p>
+        </footer>
+    </div>
+</body>
+</html>
