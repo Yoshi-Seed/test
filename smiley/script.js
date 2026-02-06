@@ -23,7 +23,7 @@ const questions = [
     },
     {
         id: 6,
-        text: "2025年3月3日～3月13日の間に、60分程度のWebインタビュー（カメラOFF）にご参加いただくご意思はありますか？<br><small style='display:block; margin-top:10px; color:#5a6c7d;'>※PCまたはiPad等の端末が必要です（スマートフォンのみ不可）</small>"
+        text: "2025年3月3日～3月13日の間に、60分程度のWebインタビュー（カメラOFF）にご参加いただくご意思はありますか？<br><small style='display:block; margin-top:10px; color:#5a6c7d;'>※PCまたはiPad等の端末が必要です（スマートフォンのみ不可）<br>※インタビュー終了までご協力いただけた場合、謝意として20,000円のお振込み・Amazonギフトの進呈をさせていただきます。</small>"
     },
     {
         id: 7,
@@ -202,7 +202,7 @@ function handleFormSubmit(e) {
     }
     
     // Create email
-    const recipientEmail = 'interview@example.com'; // Replace with actual email
+    const recipientEmail = 'medb3@seedplanning.co.jp';
     const subject = encodeURIComponent('卵巣がんのインタビュー申込');
     const body = encodeURIComponent(
         `このメールを送信してください。\n\n` +
