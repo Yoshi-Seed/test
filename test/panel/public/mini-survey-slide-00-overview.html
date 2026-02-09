@@ -8,10 +8,15 @@
 </head>
 <body>
   <main class="page">
+    <div class="topbar">
+      <span>サービス: <strong>Panel Research</strong></span>
+      <span class="chip">予定獲得: 100pt</span>
+    </div>
+
     <header class="header">
       <h1 class="title">ミニアンケートへようこそ</h1>
       <p class="subtitle">回答前に概要をご確認ください。</p>
-      <div class="progress-wrap">
+      <div class="progress-wrap" aria-label="進捗">
         <div class="progress-meta"><span>開始前</span><span>0%</span></div>
         <div class="progress"><span style="width: 0%"></span></div>
       </div>
@@ -29,9 +34,11 @@
         <li><strong>参加回数：</strong><strong>1人1回</strong> までです。</li>
       </ul>
       <div class="footer">
-        <button class="btn" type="button">アンケートを開始する</button>
+        <button class="btn-secondary" type="button">キャンセル</button>
+        <button class="btn" type="button" data-action="start-survey">アンケートを開始する</button>
       </div>
     </section>
   </main>
+  <script src="mini-survey-slides.js"></script>
 </body>
 </html>

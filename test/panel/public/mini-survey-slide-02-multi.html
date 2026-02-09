@@ -8,10 +8,15 @@
 </head>
 <body>
   <main class="page">
+    <div class="topbar">
+      <span>サービス: <strong>Panel Research</strong></span>
+      <span class="chip">回答中 / 100pt</span>
+    </div>
+
     <header class="header">
       <h1 class="title">ミニアンケート</h1>
       <p class="subtitle">質問2/4：あてはまる項目をすべて選択してください。</p>
-      <div class="progress-wrap">
+      <div class="progress-wrap" aria-label="進捗">
         <div class="progress-meta"><span>進捗</span><span>50%</span></div>
         <div class="progress"><span style="width: 50%"></span></div>
       </div>
@@ -19,18 +24,24 @@
 
     <section class="card">
       <span class="badge">Multiple Choice</span>
-      <h2 class="question">Q2. このサービスの改善に有効だと思う要素を選んでください。</h2>
-      <p class="help">複数選択可能です（1つ以上必須）。</p>
-      <div class="field-list">
-        <label class="option"><input type="checkbox" name="multi" />検索機能の強化</label>
-        <label class="option"><input type="checkbox" name="multi" />通知のカスタマイズ</label>
-        <label class="option"><input type="checkbox" name="multi" />モバイル表示の最適化</label>
-        <label class="option"><input type="checkbox" name="multi" />回答履歴の可視化</label>
-      </div>
-      <div class="footer">
-        <button class="btn" type="button">回答して次へ</button>
-      </div>
+      <form data-form="multi">
+        <fieldset>
+          <legend class="question">Q2. このサービスの改善に有効だと思う要素を選んでください。</legend>
+          <p class="help">複数選択可能です（1つ以上必須）。</p>
+          <div class="field-list">
+            <label class="option"><input type="checkbox" name="multi" />検索機能の強化</label>
+            <label class="option"><input type="checkbox" name="multi" />通知のカスタマイズ</label>
+            <label class="option"><input type="checkbox" name="multi" />モバイル表示の最適化</label>
+            <label class="option"><input type="checkbox" name="multi" />回答履歴の可視化</label>
+          </div>
+        </fieldset>
+        <div class="footer">
+          <button class="btn-secondary" type="button" data-back="mini-survey-slide-01-single.html">戻る</button>
+          <button class="btn" type="submit">回答して次へ</button>
+        </div>
+      </form>
     </section>
   </main>
+  <script src="mini-survey-slides.js"></script>
 </body>
 </html>
