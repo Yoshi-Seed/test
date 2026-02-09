@@ -6,6 +6,8 @@ import Profile from './components/Profile'
 import Points from './components/Points'
 import Register from './components/Register'
 import AdminDashboard from './components/AdminDashboard'
+import MiniSurveyAnswer from './components/MiniSurveyAnswer'
+import MiniSurveyComplete from './components/MiniSurveyComplete'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -53,6 +55,26 @@ function App() {
           element={
             isAuthenticated && userRole === 'user' ? (
               <Points onLogout={handleLogout} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          path="/mini-survey/:surveyId"
+          element={
+            isAuthenticated && userRole === 'user' ? (
+              <MiniSurveyAnswer onLogout={handleLogout} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          path="/mini-survey/:surveyId/complete"
+          element={
+            isAuthenticated && userRole === 'user' ? (
+              <MiniSurveyComplete onLogout={handleLogout} />
             ) : (
               <Navigate to="/login" />
             )

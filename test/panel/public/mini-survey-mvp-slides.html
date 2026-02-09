@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini Survey MVP ビジュアル提案</title>
+    <style>
+      :root {
+        --bg: #f3f6fb;
+        --card: #ffffff;
+        --text: #182230;
+        --muted: #5a6b85;
+        --primary: #2251cc;
+        --primary-soft: #e9efff;
+        --success: #16803c;
+        --border: #d5deeb;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Inter", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+        color: var(--text);
+        background: var(--bg);
+      }
+      .deck {
+        max-width: 1200px;
+        margin: 32px auto;
+        padding: 0 16px 32px;
+      }
+      .header {
+        background: linear-gradient(135deg, #2251cc, #4b7bff);
+        color: #fff;
+        border-radius: 18px;
+        padding: 28px;
+        margin-bottom: 18px;
+      }
+      .header h1 { margin: 0 0 8px; font-size: 30px; }
+      .header p { margin: 0; opacity: 0.95; }
+      .toc {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 14px 0 22px;
+      }
+      .toc a {
+        text-decoration: none;
+        color: var(--primary);
+        background: var(--primary-soft);
+        border: 1px solid #c8d7ff;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 13px;
+      }
+      .slide {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        margin-bottom: 18px;
+        padding: 18px;
+        box-shadow: 0 8px 24px rgba(17, 45, 102, 0.06);
+      }
+      .slide h2 {
+        margin: 0 0 10px;
+        font-size: 24px;
+      }
+      .meta {
+        margin-bottom: 14px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .panel {
+        background: #fbfdff;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 14px;
+      }
+      .panel h3 { margin: 0 0 8px; font-size: 16px; }
+      .chip {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+        margin-right: 6px;
+        background: #edf2ff;
+        color: #2d4cad;
+      }
+      .mock-app {
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        background: #fff;
+      }
+      .mock-header {
+        background: #192a50;
+        color: #fff;
+        padding: 10px 14px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+      }
+      .mock-body { padding: 14px; }
+      .card {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px;
+        margin-bottom: 10px;
+      }
+      .option {
+        padding: 8px;
+        border: 1px solid #cfd8e7;
+        border-radius: 10px;
+        margin-top: 8px;
+      }
+      .checked { border-color: #2f5cff; background: #f1f5ff; }
+      .input {
+        margin-top: 8px;
+        border: 1px solid #cfd8e7;
+        border-radius: 10px;
+        padding: 10px;
+        color: #7a8799;
+        background: #f9fbff;
+      }
+      .button {
+        background: var(--primary);
+        color: #fff;
+        border-radius: 10px;
+        padding: 10px 14px;
+        display: inline-block;
+        font-size: 13px;
+      }
+      .flow {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(5, 1fr);
+      }
+      .node {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px;
+        background: #fff;
+        text-align: center;
+        font-size: 13px;
+      }
+      .arrow { text-align: center; color: #6c7ea1; }
+      table { width: 100%; border-collapse: collapse; font-size: 13px; }
+      th, td { border: 1px solid var(--border); padding: 8px; text-align: left; }
+      th { background: #f2f6ff; }
+      @media (max-width: 900px) {
+        .two-col { grid-template-columns: 1fr; }
+        .flow { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="deck">
+      <section class="header">
+        <h1>Mini Survey MVP（外注向け）ビジュアル仕様</h1>
+        <p>目的: 管理者が1〜5問の簡易調査を配信し、会員マイページで回収・即時ポイント付与する。</p>
+      </section>
+
+      <nav class="toc">
+        <a href="#slide-summary">概要</a>
+        <a href="#slide-single">Single Answer</a>
+        <a href="#slide-multi">Multi Answer</a>
+        <a href="#slide-open">Open End</a>
+        <a href="#slide-numeric">Numeric</a>
+        <a href="#slide-admin">管理画面</a>
+        <a href="#slide-member">会員画面</a>
+        <a href="#slide-architecture">構造図</a>
+      </nav>
+
+      <section id="slide-summary" class="slide">
+        <h2>Slide 1. MVP要件サマリー</h2>
+        <p class="meta">全問必須 / 1サーベイ1回回答 / 全完了者に100pt / 分岐なし / 配信は全会員。</p>
+        <div class="two-col">
+          <div class="panel">
+            <h3>機能範囲（今回つくる）</h3>
+            <ul>
+              <li>質問タイプ: Single / Multi / Open / Numeric</li>
+              <li>Admin: 作成・公開・締切・CSV出力</li>
+              <li>Member: 新着表示・回答・完了画面</li>
+              <li>Snapshot属性: member_id, specialty, hospital_type, prefecture, years_in_practice</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>将来拡張（今回は対象外）</h3>
+            <ul>
+              <li>対象者フィルター（循環器のみ等）</li>
+              <li>過去回答に基づくターゲティング</li>
+              <li>追加属性質問（勤務形態、病床数など）</li>
+              <li>簡易ダッシュボード（円グラフ等）</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="slide-single" class="slide">
+        <h2>Slide 2. Single Answer（単一選択）UI例</h2>
+        <p class="meta">1つだけ選択可能。次へ進む前に必須チェック。</p>
+        <div class="mock-app">
+          <div class="mock-header"><span>会員マイページ / Mini Survey</span><span>Q1/4</span></div>
+          <div class="mock-body">
+            <div class="card">
+              <span class="chip">必須</span><span class="chip">Single Answer</span>
+              <h3>現在、最も関心の高い治療領域を1つ選んでください</h3>
+              <div class="option checked">◉ 循環器</div>
+              <div class="option">○ 糖尿病</div>
+              <div class="option">○ 呼吸器</div>
+              <div class="option">○ 腫瘍</div>
+            </div>
+            <span class="button">次へ</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="slide-multi" class="slide">
+        <h2>Slide 3. Multi Answer（複数選択）UI例</h2>
+        <p class="meta">複数選択可。0件不可（必須）で、送信時バリデーション。</p>
+        <div class="mock-app">
+          <div class="mock-header"><span>会員マイページ / Mini Survey</span><span>Q2/4</span></div>
+          <div class="mock-body">
+            <div class="card">
+              <span class="chip">必須</span><span class="chip">Multiple Answer</span>
+              <h3>新薬評価で重視する要素をすべて選択してください</h3>
+              <div class="option checked">☑ 有効性</div>
+              <div class="option checked">☑ 安全性</div>
+              <div class="option">☐ 服薬アドヒアランス</div>
+              <div class="option">☐ コスト</div>
+            </div>
+            <span class="button">次へ</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="slide-open" class="slide">
+        <h2>Slide 4. Open End（自由記述）UI例</h2>
+        <p class="meta">テキスト入力必須。MVPは文字数上限なし（将来追加可）。</p>
+        <div class="mock-app">
+          <div class="mock-header"><span>会員マイページ / Mini Survey</span><span>Q3/4</span></div>
+          <div class="mock-body">
+            <div class="card">
+              <span class="chip">必須</span><span class="chip">Open End</span>
+              <h3>現場で感じる導入障壁があれば具体的にご記入ください</h3>
+              <div class="input">例）患者説明の時間確保が難しい、院内フローが未整備…</div>
+            </div>
+            <span class="button">次へ</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="slide-numeric" class="slide">
+        <h2>Slide 5. Numeric（数値入力）UI例</h2>
+        <p class="meta">任意仕様。年数・人数などのFeasibility確認に有効。</p>
+        <div class="mock-app">
+          <div class="mock-header"><span>会員マイページ / Mini Survey</span><span>Q4/4</span></div>
+          <div class="mock-body">
+            <div class="card">
+              <span class="chip">必須</span><span class="chip">Numeric</span>
+              <h3>対象疾患の月間診療患者数（概数）を入力してください</h3>
+              <div class="input">120</div>
+            </div>
+            <span class="button">回答を送信する</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="slide-admin" class="slide">
+        <h2>Slide 6. 管理画面（Admin）イメージ</h2>
+        <p class="meta">作成→公開→回収確認→CSV出力の最短オペレーション。</p>
+        <div class="two-col">
+          <div class="panel">
+            <h3>作成フォーム</h3>
+            <ul>
+              <li>タイトル / 説明文 / 配信期間</li>
+              <li>質問1〜5（type + options）</li>
+              <li>謝礼ポイント（初期値100）</li>
+              <li>ステータス: draft / published / closed</li>
+            </ul>
+            <div class="button">公開して配信開始</div>
+          </div>
+          <div class="panel">
+            <h3>回収・出力</h3>
+            <ul>
+              <li>回答数 / 完了数 / 完了率</li>
+              <li>CSV出力（1人1行）</li>
+              <li>通知テンプレの自動投稿</li>
+            </ul>
+            <table>
+              <thead><tr><th>survey_id</th><th>title</th><th>status</th><th>completed</th></tr></thead>
+              <tbody>
+                <tr><td>MS-2401</td><td>循環器Mini Survey</td><td>published</td><td>423</td></tr>
+                <tr><td>MS-2398</td><td>機器使用状況</td><td>closed</td><td>518</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="slide-member" class="slide">
+        <h2>Slide 7. 会員導線（マイページ）イメージ</h2>
+        <p class="meta">既存アンケートカードUIに寄せ、学習コストを下げる。</p>
+        <div class="flow">
+          <div class="node">お知らせに自動投稿<br/>「Mini Survey公開」</div>
+          <div class="arrow">→</div>
+          <div class="node">ダッシュボード新着カード<br/>締切・所要時間・100pt</div>
+          <div class="arrow">→</div>
+          <div class="node">回答画面<br/>全問必須・1回のみ</div>
+        </div>
+        <div class="flow" style="margin-top:10px;">
+          <div class="node">送信完了</div>
+          <div class="arrow">→</div>
+          <div class="node">即時100pt付与</div>
+          <div class="arrow">→</div>
+          <div class="node">ポイント台帳記録<br/>reason: mini_survey_complete</div>
+        </div>
+      </section>
+
+      <section id="slide-architecture" class="slide">
+        <h2>Slide 8. 簡易システム構成図（データ構造）</h2>
+        <p class="meta">MVPで必要な最小テーブルと連携先。</p>
+        <div class="two-col">
+          <div class="panel">
+            <h3>主要テーブル</h3>
+            <table>
+              <thead><tr><th>Table</th><th>Role</th></tr></thead>
+              <tbody>
+                <tr><td>mini_survey</td><td>サーベイ本体</td></tr>
+                <tr><td>mini_survey_question</td><td>設問（1〜5）</td></tr>
+                <tr><td>mini_survey_option</td><td>選択肢</td></tr>
+                <tr><td>mini_survey_response</td><td>回答セッション</td></tr>
+                <tr><td>mini_survey_answer</td><td>回答値(JSON)</td></tr>
+                <tr><td>mini_survey_response_snapshot</td><td>属性スナップショット</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="panel">
+            <h3>既存流用</h3>
+            <ul>
+              <li>point_ledger: 100pt付与記録</li>
+              <li>notification: マイページお知らせ投稿</li>
+            </ul>
+            <h3 style="margin-top:12px;">CSVカラム例</h3>
+            <p>member_id, specialty, hospital_type, prefecture, years_in_practice, q1, q2, q3, q4, completed_at</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
