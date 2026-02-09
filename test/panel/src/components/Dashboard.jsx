@@ -83,6 +83,25 @@ function Dashboard({ onLogout }) {
     },
   ]
 
+  const miniSurveys = [
+    {
+      id: 'MS-2026-001',
+      title: '診療体制に関するミニ調査',
+      points: 100,
+      deadline: '2026-01-17',
+      duration: '約3分',
+      responseStatus: 'unanswered'
+    },
+    {
+      id: 'MS-2026-002',
+      title: '電子カルテ利用状況ミニアンケート',
+      points: 100,
+      deadline: '2026-01-16',
+      duration: '約2分',
+      responseStatus: 'answered'
+    },
+  ]
+
   return (
     <Layout onLogout={onLogout}>
       <div className="space-y-6">
@@ -121,7 +140,7 @@ function Dashboard({ onLogout }) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* アンケート一覧 */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg shadow">
+            <div className="bg-white rounded-lg shadow mb-6">
               <div className="px-6 py-4 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                   <h2 className="text-lg font-semibold text-gray-900 flex items-center">
@@ -166,6 +185,56 @@ function Dashboard({ onLogout }) {
                 <button className="text-primary-600 hover:text-primary-700 text-sm font-medium">
                   すべてのアンケートを見る →
                 </button>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg shadow">
+              <div className="px-6 py-4 border-b border-gray-200">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-lg font-semibold text-gray-900 flex items-center">
+                    <FileText className="h-5 w-5 mr-2 text-primary-600" />
+                    Mini Survey新着カード
+                  </h2>
+                  <span className="bg-orange-100 text-orange-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                    {miniSurveys.length}件
+                  </span>
+                </div>
+              </div>
+              <div className="divide-y divide-gray-200">
+                {miniSurveys.map((survey) => (
+                  <div key={survey.id} className="p-6 hover:bg-gray-50 transition duration-150">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <h3 className="text-base font-medium text-gray-900 mb-2">
+                          {survey.title}
+                        </h3>
+                        <div className="flex items-center space-x-4 text-sm text-gray-500">
+                          <span className="flex items-center">
+                            <Coins className="h-4 w-4 mr-1 text-yellow-500" />
+                            {survey.points}pt
+                          </span>
+                          <span className="flex items-center">
+                            <Calendar className="h-4 w-4 mr-1" />
+                            締切: {survey.deadline}
+                          </span>
+                          <span className="flex items-center">
+                            所要時間: {survey.duration}
+                          </span>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => navigate(`/mini-survey/${survey.id}`)}
+                        className={`ml-4 px-4 py-2 text-sm font-medium rounded-md transition duration-150 ${
+                          survey.responseStatus === 'answered'
+                            ? 'bg-gray-200 text-gray-500'
+                            : 'bg-primary-600 text-white hover:bg-primary-700'
+                        }`}
+                      >
+                        {survey.responseStatus === 'answered' ? '回答済み' : '回答する'}
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
