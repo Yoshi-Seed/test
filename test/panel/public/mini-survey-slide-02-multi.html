@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ミニアンケート - 複数選択</title>
+  <link rel="stylesheet" href="mini-survey-slides.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <h1 class="title">ミニアンケート</h1>
+      <p class="subtitle">質問2/4：あてはまる項目をすべて選択してください。</p>
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>進捗</span><span>50%</span></div>
+        <div class="progress"><span style="width: 50%"></span></div>
+      </div>
+    </header>
+
+    <section class="card">
+      <span class="badge">Multiple Choice</span>
+      <h2 class="question">Q2. このサービスの改善に有効だと思う要素を選んでください。</h2>
+      <p class="help">複数選択可能です（1つ以上必須）。</p>
+      <div class="field-list">
+        <label class="option"><input type="checkbox" name="multi" />検索機能の強化</label>
+        <label class="option"><input type="checkbox" name="multi" />通知のカスタマイズ</label>
+        <label class="option"><input type="checkbox" name="multi" />モバイル表示の最適化</label>
+        <label class="option"><input type="checkbox" name="multi" />回答履歴の可視化</label>
+      </div>
+      <div class="footer">
+        <button class="btn" type="button">回答して次へ</button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
