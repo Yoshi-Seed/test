@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ミニアンケート - 単一選択</title>
+  <link rel="stylesheet" href="mini-survey-slides.css" />
+</head>
+<body>
+  <main class="page">
+    <div class="topbar">
+      <span>サービス: <strong>Panel Research</strong></span>
+      <span class="chip">回答中 / 100pt</span>
+    </div>
+
+    <header class="header">
+      <h1 class="title">ミニアンケート</h1>
+      <p class="subtitle">質問1/4：最も近いものを1つ選択してください。</p>
+      <div class="progress-wrap" aria-label="進捗">
+        <div class="progress-meta"><span>進捗</span><span>25%</span></div>
+        <div class="progress"><span style="width: 25%"></span></div>
+      </div>
+    </header>
+
+    <section class="card">
+      <span class="badge">Single Choice</span>
+      <form data-form="single">
+        <fieldset>
+          <legend class="question">Q1. あなたが最もよく利用する機能はどれですか？</legend>
+          <p class="help">以下から1つ選択してください（必須）。</p>
+          <div class="field-list">
+            <label class="option"><input type="radio" name="single" required />ダッシュボード</label>
+            <label class="option"><input type="radio" name="single" />アンケート一覧</label>
+            <label class="option"><input type="radio" name="single" />ポイント履歴</label>
+            <label class="option"><input type="radio" name="single" />プロフィール設定</label>
+          </div>
+        </fieldset>
+        <div class="footer">
+          <button class="btn-secondary" type="button" data-back="mini-survey-slide-00-overview.html">戻る</button>
+          <button class="btn" type="submit">回答して次へ</button>
+        </div>
+      </form>
+    </section>
+  </main>
+  <script src="mini-survey-slides.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ミニアンケート - 数値入力</title>
+  <link rel="stylesheet" href="mini-survey-slides.css" />
+</head>
+<body>
+  <main class="page">
+    <div class="topbar">
+      <span>サービス: <strong>Panel Research</strong></span>
+      <span class="chip">最終設問 / 100pt</span>
+    </div>
+
+    <header class="header">
+      <h1 class="title">ミニアンケート</h1>
+      <p class="subtitle">質問4/4：数値をご入力ください。</p>
+      <div class="progress-wrap" aria-label="進捗">
+        <div class="progress-meta"><span>進捗</span><span>100%</span></div>
+        <div class="progress"><span style="width: 100%"></span></div>
+      </div>
+    </header>
+
+    <section class="card">
+      <span class="badge">Numeric</span>
+      <form data-form="numeric">
+        <label class="question" for="score">Q4. あなたの総合満足度を数値で評価してください。</label>
+        <p class="help">0〜10の範囲で、整数または小数第1位まで入力できます（必須）。</p>
+        <div class="number-group">
+          <input id="score" type="number" min="0" max="10" step="0.1" required placeholder="例：8.5" />
+          <span class="unit">点 / 10点満点</span>
+        </div>
+        <p class="limits">入力範囲: 最小0 / 最大10</p>
+        <div class="footer">
+          <button class="btn-secondary" type="button" data-back="mini-survey-slide-03-open-end.html">戻る</button>
+          <button class="btn" type="submit">回答を送信する</button>
+        </div>
+      </form>
+    </section>
+  </main>
+  <script src="mini-survey-slides.js"></script>
+</body>
+</html>

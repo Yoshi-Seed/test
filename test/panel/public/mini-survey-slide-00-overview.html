@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ミニアンケート概要</title>
+  <link rel="stylesheet" href="mini-survey-slides.css" />
+</head>
+<body>
+  <main class="page">
+    <div class="topbar">
+      <span>サービス: <strong>Panel Research</strong></span>
+      <span class="chip">予定獲得: 100pt</span>
+    </div>
+
+    <header class="header">
+      <h1 class="title">ミニアンケートへようこそ</h1>
+      <p class="subtitle">回答前に概要をご確認ください。</p>
+      <div class="progress-wrap" aria-label="進捗">
+        <div class="progress-meta"><span>開始前</span><span>0%</span></div>
+        <div class="progress"><span style="width: 0%"></span></div>
+      </div>
+    </header>
+
+    <section class="card">
+      <span class="badge">イントロ</span>
+      <h2 class="question">このアンケートの目的と参加条件</h2>
+      <p class="help">本調査は、サービス品質向上のための意見収集を目的としています。</p>
+      <ul class="notice-list">
+        <li><strong>目的：</strong>ユーザー体験の改善に向けた基礎データの取得。</li>
+        <li><strong>質問数：</strong>全 <strong>1〜5問</strong> を予定（画面により変動）。</li>
+        <li><strong>回答条件：</strong><strong>全問必須</strong>で回答してください。</li>
+        <li><strong>謝礼：</strong>回答完了で <span class="strong">100pt</span> を付与します。</li>
+        <li><strong>参加回数：</strong><strong>1人1回</strong> までです。</li>
+      </ul>
+      <div class="footer">
+        <button class="btn-secondary" type="button">キャンセル</button>
+        <button class="btn" type="button" data-action="start-survey">アンケートを開始する</button>
+      </div>
+    </section>
+  </main>
+  <script src="mini-survey-slides.js"></script>
+</body>
+</html>

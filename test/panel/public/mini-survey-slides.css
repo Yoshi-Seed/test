@@ -1,0 +1,267 @@
+:root {
+  --bg: #f3f6fb;
+  --card: #ffffff;
+  --line: #dce3ef;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --accent: #e8f0ff;
+  --success: #16a34a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  background: linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+  color: var(--text);
+}
+
+.page {
+  max-width: 760px;
+  margin: 32px auto;
+  padding: 0 16px 40px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.topbar strong {
+  color: #111827;
+}
+
+.chip {
+  background: #eef4ff;
+  border: 1px solid #c9dafd;
+  color: var(--primary-dark);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-weight: 600;
+}
+
+.header {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px 20px;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+}
+
+.title {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.subtitle {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.progress-wrap {
+  margin-top: 14px;
+}
+
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.progress {
+  margin-top: 6px;
+  height: 10px;
+  width: 100%;
+  background: #e6ebf5;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress > span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), #4f8cff);
+}
+
+.card {
+  margin-top: 16px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+}
+
+.badge {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--primary-dark);
+  border: 1px solid #bfd2ff;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.question {
+  margin: 12px 0 6px;
+  font-size: 1.15rem;
+}
+
+
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.help {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.field-list {
+  display: grid;
+  gap: 10px;
+}
+
+.option {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.option:hover {
+  border-color: #9db8f8;
+  background: #f8fbff;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin-top: 2px;
+  transform: scale(1.15);
+}
+
+textarea,
+input[type="number"] {
+  width: 100%;
+  border: 1px solid #bfc8d8;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+textarea:focus,
+input[type="number"]:focus {
+  outline: 2px solid #bdd5ff;
+  border-color: #6fa1ff;
+}
+
+.number-group {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.unit {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.limits {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.footer {
+  margin-top: 18px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn,
+.btn-secondary {
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.05s, background 0.2s;
+}
+
+.btn {
+  color: #fff;
+  background: var(--primary);
+}
+
+.btn:hover {
+  background: var(--primary-dark);
+}
+
+.btn-secondary {
+  color: #334155;
+  background: #eef2f7;
+  border: 1px solid #d8e0ed;
+}
+
+.btn-secondary:hover {
+  background: #e5ebf4;
+}
+
+.btn:active,
+.btn-secondary:active {
+  transform: translateY(1px);
+}
+
+.notice-list {
+  margin: 14px 0 0;
+  padding-left: 18px;
+  color: #374151;
+}
+
+.notice-list li + li {
+  margin-top: 8px;
+}
+
+.strong {
+  color: var(--success);
+  font-weight: 700;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
