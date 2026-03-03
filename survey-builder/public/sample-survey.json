@@ -1,0 +1,108 @@
+{
+  "surveyId": "sample-001",
+  "title": "医療従事者向けサンプル調査",
+  "description": "分岐ルール付きのサンプル調査です",
+  "questions": [
+    {
+      "qid": "S1",
+      "type": "SA",
+      "text": "あなたの職種を教えてください",
+      "helpText": "現在の主な職種を選択してください",
+      "required": true,
+      "options": [
+        { "value": "1", "label": "医師" },
+        { "value": "2", "label": "看護師" },
+        { "value": "3", "label": "薬剤師" },
+        { "value": "4", "label": "その他医療従事者" }
+      ]
+    },
+    {
+      "qid": "S2",
+      "type": "SA",
+      "text": "勤務先の施設形態を教えてください",
+      "required": true,
+      "options": [
+        { "value": "1", "label": "大学病院" },
+        { "value": "2", "label": "総合病院" },
+        { "value": "3", "label": "クリニック" }
+      ]
+    },
+    {
+      "qid": "S3",
+      "type": "SA",
+      "text": "医療従事者としての経験年数を教えてください",
+      "required": true,
+      "options": [
+        { "value": "1", "label": "1年未満" },
+        { "value": "2", "label": "1年以上3年未満" },
+        { "value": "3", "label": "3年以上5年未満" },
+        { "value": "4", "label": "5年以上10年未満" },
+        { "value": "5", "label": "10年以上" }
+      ],
+      "rules": [
+        {
+          "when": { "op": "equals", "value": "1" },
+          "then": { "action": "SCREENOUT" }
+        },
+        {
+          "when": { "op": "equals", "value": "4" },
+          "then": { "action": "GOTO", "targetQid": "S5" }
+        }
+      ]
+    },
+    {
+      "qid": "S4",
+      "type": "MA",
+      "text": "現在の業務で使用している医療機器を全て選択してください",
+      "helpText": "複数選択可能です",
+      "required": true,
+      "options": [
+        { "value": "1", "label": "電子カルテシステム" },
+        { "value": "2", "label": "画像診断装置" },
+        { "value": "3", "label": "検査機器" },
+        { "value": "other", "label": "その他", "isOther": true }
+      ],
+      "otherTextRequired": true
+    },
+    {
+      "qid": "S5",
+      "type": "FREE",
+      "text": "現在の医療現場で最も改善が必要だと感じていることを自由にお書きください",
+      "required": true
+    },
+    {
+      "qid": "S6",
+      "type": "NUMERIC",
+      "text": "1週間あたりの平均勤務時間を教えてください",
+      "required": true,
+      "unit": "時間",
+      "min": 0,
+      "max": 168
+    },
+    {
+      "qid": "S7",
+      "type": "MATRIX",
+      "text": "以下の項目について、現在の職場環境を評価してください",
+      "required": true,
+      "matrix": {
+        "rows": [
+          { "id": "r1", "label": "職場の設備・環境" },
+          { "id": "r2", "label": "給与・待遇" },
+          { "id": "r3", "label": "人間関係" }
+        ],
+        "cols": [
+          { "id": "1", "label": "非常に不満" },
+          { "id": "2", "label": "やや不満" },
+          { "id": "3", "label": "普通" },
+          { "id": "4", "label": "やや満足" },
+          { "id": "5", "label": "非常に満足" }
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "completeMessage": "アンケートにご協力いただき、ありがとうございました。",
+    "screenoutMessage": "誠に申し訳ございませんが、今回の調査対象外となりました。",
+    "quotaFullMessage": "該当セグメントの回答数が上限に達しました。"
+  }
+}
