@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GAD Patient Journey - HCP Screener</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif; background: #f0f4f8; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .card { background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); max-width: 520px; width: 100%; padding: 48px 36px; text-align: center; }
+    .badge { display: inline-block; background: #eff6ff; color: #2563eb; font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; margin-bottom: 20px; letter-spacing: 0.5px; }
+    h1 { font-size: 26px; color: #111827; margin-bottom: 6px; }
+    .subtitle { font-size: 16px; color: #4b5563; margin-bottom: 4px; }
+    .subtitle-sm { font-size: 14px; color: #9ca3af; margin-bottom: 32px; }
+    .divider { border: none; border-top: 1px solid #e5e7eb; margin: 28px 0; }
+    .info { font-size: 13px; color: #6b7280; line-height: 1.7; text-align: left; margin-bottom: 28px; }
+    .info strong { color: #374151; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 28px; font-size: 14px; }
+    th, td { padding: 8px 12px; text-align: left; }
+    th { background: #f9fafb; color: #6b7280; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+    td { border-top: 1px solid #f3f4f6; color: #374151; }
+    td:last-child { text-align: right; font-weight: 600; }
+    tr:last-child td { color: #111827; font-weight: 700; border-top: 2px solid #e5e7eb; }
+    .btn { display: inline-block; background: #2563eb; color: #fff; font-size: 16px; font-weight: 600; padding: 14px 40px; border-radius: 10px; text-decoration: none; transition: background 0.2s; }
+    .btn:hover { background: #1d4ed8; }
+    .footer { margin-top: 24px; font-size: 11px; color: #9ca3af; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge">HCP Screener for Japan</div>
+    <h1>GAD Patient Journey</h1>
+    <p class="subtitle">全般性不安障害ペイシェントジャーニー</p>
+    <p class="subtitle-sm">医師用スクリーナー</p>
+
+    <table>
+      <thead>
+        <tr><th>Target</th><th style="text-align:right">Japan</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>精神科</td><td>4</td></tr>
+        <tr><td>内科</td><td>6</td></tr>
+        <tr><td>TOTAL</td><td>10</td></tr>
+      </tbody>
+    </table>
+
+    <hr class="divider" />
+
+    <div class="info">
+      <p>本市場調査においてご提供いただく情報は、特定の疾患に対する治療実態の理解を深める目的で活用されます。</p>
+      <br />
+      <p>ご回答内容はすべて<strong>機密</strong>として取り扱われます。所要時間は約10〜15分です。</p>
+    </div>
+
+    <a href="/gad-screener" class="btn">調査を開始する</a>
+
+    <p class="footer">Seed Planning / GAD HCP Screener</p>
+  </div>
+</body>
+</html>
