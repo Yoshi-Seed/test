@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import SurveyList from '@/pages/SurveyList'
 import SurveyCreate from '@/pages/SurveyCreate'
 import SurveyAnswer from '@/pages/SurveyAnswer'
+import GadScreener from '@/pages/GadScreener'
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/create" element={<SurveyCreate />} />
         <Route path="/edit/:id" element={<SurveyCreate />} />
         <Route path="/s/:id" element={<SurveyAnswer />} />
+        <Route path="/gad-screener" element={<GadScreener />} />
       </Routes>
     </BrowserRouter>
   )
