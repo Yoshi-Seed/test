@@ -1,52 +1,25 @@
-# Mini Survey
+# GAD HCP Screener (Japan) — Demo UI (Static)
 
-シンプルな簡易アンケート作成・配信ツール
+This ZIP is a **static** “1 question per screen” demo UI generated from the provided Word questionnaire.
 
-## 機能
+- ✅ Works on **GitHub Pages** (no build tools)
+- ✅ **No data is stored** (no cookies / no localStorage)
+- ✅ Runs fully in the browser
 
-- Survey作成（最大5問）
-- 質問タイプ: 単一選択 / 複数選択 / 自由記述
-- 公開リンクで配信
-- 回答データをCSVダウンロード
+## Quick start (local)
 
-## セットアップ
+Open `index.html` in a browser.
 
-### 1. Supabaseプロジェクト作成
+## Publish to GitHub Pages
 
-[Supabase](https://supabase.com) でプロジェクトを作成し、SQL Editorで `setup_supabase.sql` を実行
+1. Create a new repo (e.g., `gad-screener-demo`)
+2. Upload all files in this folder to the repo root
+3. GitHub → **Settings** → **Pages**
+4. Source: **Deploy from a branch**
+5. Branch: `main` / folder: `/root`
+6. Save → open the URL GitHub shows
 
-### 2. 環境変数設定
+## Notes
 
-```bash
-cp .env.example .env
-```
-
-`.env` にSupabaseの認証情報を設定:
-
-```
-VITE_SUPABASE_URL=https://xxxxx.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJxxxxx
-```
-
-### 3. 起動
-
-```bash
-pnpm install
-pnpm dev
-```
-
-## 使い方
-
-| URL | 説明 |
-|-----|------|
-| `/` | 管理画面（Survey一覧） |
-| `/create` | Survey新規作成 |
-| `/edit/:id` | Survey編集 |
-| `/s/:id` | 公開回答フォーム |
-
-## 技術スタック
-
-- React 18 + TypeScript
-- Vite
-- Tailwind CSS
-- Supabase (PostgreSQL)
+- This is a UI concept demo. Some terminate/hold rules are simplified.
+- Refreshing the page resets all answers.

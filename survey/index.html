@@ -1,14 +1,63 @@
 <!doctype html>
-<html lang="en">
-
+<html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>GAD HCP Screener (Japan) — Demo UI</title>
+  <meta name="description" content="Static demo UI for a 1-question-per-screen survey. No data is stored." />
+  <link rel="stylesheet" href="assets/style.css" />
 </head>
-
 <body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
-</body>
+  <div class="bg"></div>
 
+  <header class="topbar" aria-label="Survey header">
+    <div class="brand">
+      <div class="mark" aria-hidden="true">S</div>
+      <div class="brand-text">
+        <div class="brand-title">Survey Demo</div>
+        <div class="brand-sub">GAD Patient Journey — HCP Screener (Japan)</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="ghost" id="restartBtn" type="button" title="最初から">↻</button>
+    </div>
+  </header>
+
+  <main class="wrap" aria-live="polite">
+    <section class="card" id="card">
+      <div class="card-head">
+        <div class="kicker" id="kicker">—</div>
+        <h1 class="title" id="title">—</h1>
+        <p class="desc" id="desc"></p>
+      </div>
+
+      <div class="card-body" id="body"></div>
+
+      <div class="card-foot">
+        <div class="progress">
+          <div class="progress-label" id="progressLabel">—</div>
+          <div class="progress-bar" aria-hidden="true">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="secondary" id="backBtn" type="button">戻る</button>
+          <button class="primary" id="nextBtn" type="button">次へ</button>
+        </div>
+
+        <div class="hint" id="hint"></div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div>※ デモUIです。回答は保存されません（リロードで消えます）。</div>
+      <div class="footer-links">
+        <a href="README.html" class="tinylink" target="_blank" rel="noopener">使い方</a>
+      </div>
+    </footer>
+  </main>
+
+  <script src="assets/app.js"></script>
+</body>
 </html>
