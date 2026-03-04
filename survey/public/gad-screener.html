@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GAD Patient Journey - HCP Screener</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif; background: #f9fafb; min-height: 100vh; padding: 24px 16px 40px; }
+    .container { max-width: 672px; margin: 0 auto; }
+
+    /* Header & Progress */
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .header-title { font-size: 14px; font-weight: 600; color: #6b7280; }
+    .header-step { font-size: 12px; color: #9ca3af; }
+    .progress-bar { width: 100%; background: #e5e7eb; border-radius: 999px; height: 6px; margin-bottom: 32px; }
+    .progress-fill { background: #2563eb; height: 6px; border-radius: 999px; transition: width 0.5s ease; }
+
+    /* Card */
+    .card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); padding: 24px 32px; }
+    @media (max-width: 640px) { .card { padding: 20px 16px; } }
+
+    /* Badge */
+    .badge { display: inline-block; background: #eff6ff; color: #1d4ed8; font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; margin-bottom: 12px; }
+
+    /* Typography */
+    h1 { font-size: 24px; color: #111827; margin-bottom: 4px; }
+    h2 { font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 4px; line-height: 1.5; }
+    .subtitle { font-size: 16px; color: #4b5563; margin-bottom: 2px; }
+    .subtitle-sm { font-size: 14px; color: #9ca3af; }
+    .hint { font-size: 13px; color: #6b7280; margin-top: 4px; }
+
+    /* Radio / Checkbox options */
+    .option-list { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+    .option-item { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 10px; border: 2px solid #e5e7eb; cursor: pointer; transition: all 0.2s; }
+    .option-item:hover { border-color: #d1d5db; background: #f9fafb; }
+    .option-item.selected { border-color: #3b82f6; background: #eff6ff; }
+    .option-item input[type="radio"],
+    .option-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: #2563eb; flex-shrink: 0; cursor: pointer; }
+    .option-label { color: #1f2937; font-weight: 500; font-size: 14px; flex: 1; }
+    .option-note { font-size: 11px; margin-left: auto; white-space: nowrap; }
+    .note-blue { color: #3b82f6; }
+    .note-red { color: #ef4444; }
+
+    /* Compact option list for S10 regions */
+    .option-list.compact { gap: 8px; }
+    .option-list.compact .option-item { padding: 10px 14px; }
+
+    /* S25 items */
+    .s25-block { border: 1px solid #e5e7eb; border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+    .s25-label { font-size: 14px; font-weight: 500; color: #1f2937; margin-bottom: 12px; }
+    .s25-choices { display: flex; gap: 16px; }
+    .s25-choice { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 10px; border: 2px solid #e5e7eb; cursor: pointer; transition: all 0.2s; }
+    .s25-choice:hover { border-color: #d1d5db; }
+    .s25-choice.selected { border-color: #3b82f6; background: #eff6ff; }
+    .s25-choice input { width: 16px; height: 16px; accent-color: #2563eb; cursor: pointer; }
+    .s25-choice span { font-size: 13px; color: #374151; }
+
+    /* Percent / Number inputs */
+    .input-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .input-row .input-label { flex: 1; }
+    .input-row .input-label p { font-size: 14px; font-weight: 500; color: #1f2937; }
+    .input-row .input-label .input-note { font-size: 11px; color: #ef4444; }
+    .num-input { width: 80px; padding: 8px 12px; border: 2px solid #d1d5db; border-radius: 8px; text-align: center; font-size: 16px; outline: none; transition: border-color 0.2s; }
+    .num-input:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+    .num-input-lg { width: 120px; padding: 12px 16px; font-size: 18px; }
+    .input-unit { font-size: 14px; color: #6b7280; }
+
+    /* Total display */
+    .total-bar { margin-top: 8px; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 500; }
+    .total-ok { background: #f0fdf4; color: #15803d; }
+    .total-ng { background: #fef2f2; color: #dc2626; }
+
+    /* Drug categories */
+    .drug-category { margin-bottom: 20px; }
+    .drug-category-title { font-size: 13px; font-weight: 600; color: #4b5563; margin-bottom: 8px; }
+
+    /* Text input */
+    .text-input { width: 100%; padding: 12px 16px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 14px; outline: none; transition: border-color 0.2s; font-family: inherit; }
+    .text-input:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+
+    /* Separator */
+    .separator { border: none; border-top: 1px solid #e5e7eb; margin: 16px 0; }
+
+    /* Nav buttons */
+    .nav { display: flex; justify-content: space-between; margin-top: 32px; }
+    .btn-back { display: flex; align-items: center; gap: 4px; padding: 8px 16px; background: none; border: none; font-size: 14px; color: #4b5563; cursor: pointer; font-family: inherit; transition: color 0.2s; }
+    .btn-back:hover { color: #111827; }
+    .btn-next { display: flex; align-items: center; gap: 4px; padding: 10px 24px; background: #2563eb; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.2s; }
+    .btn-next:hover { background: #1d4ed8; }
+    .btn-next:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Intro specific */
+    .intro-center { text-align: center; margin-bottom: 32px; }
+    .base-sizes { background: #f9fafb; border-radius: 10px; padding: 20px; margin-bottom: 24px; }
+    .base-sizes h3 { font-size: 12px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+    .base-table { width: 100%; font-size: 14px; border-collapse: collapse; }
+    .base-table th { text-align: left; padding: 8px 0; color: #6b7280; font-weight: 500; border-bottom: 1px solid #e5e7eb; }
+    .base-table th:last-child { text-align: right; }
+    .base-table td { padding: 8px 0; color: #374151; border-bottom: 1px solid #f3f4f6; }
+    .base-table td:last-child { text-align: right; font-weight: 500; }
+    .base-table tr:last-child td { font-weight: 700; color: #111827; border-bottom: none; border-top: 2px solid #e5e7eb; }
+
+    .disclaimer { background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px; padding: 16px; margin-bottom: 24px; text-align: left; }
+    .disclaimer-header { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+    .disclaimer-header svg { flex-shrink: 0; }
+    .disclaimer-title { font-size: 13px; font-weight: 600; color: #92400e; }
+    .disclaimer p { font-size: 13px; color: #78350f; line-height: 1.7; }
+    .info-text { font-size: 14px; color: #4b5563; line-height: 1.8; text-align: left; margin-bottom: 24px; }
+    .info-text p { margin-bottom: 12px; }
+
+    /* Confidentiality box */
+    .conf-box { background: #f9fafb; border-radius: 10px; padding: 16px; font-size: 14px; color: #374151; line-height: 1.7; margin-bottom: 16px; text-align: left; }
+    .conf-box ul { margin-top: 8px; padding-left: 20px; }
+    .conf-box li { margin-bottom: 4px; color: #4b5563; }
+
+    /* Result pages */
+    .result { text-align: center; }
+    .result svg { margin: 0 auto 16px; }
+    .result h2 { font-size: 20px; margin-bottom: 12px; }
+    .result p { font-size: 14px; color: #4b5563; margin-bottom: 16px; line-height: 1.7; }
+    .result .reason { background: #f9fafb; border-radius: 10px; padding: 16px; font-size: 14px; color: #4b5563; margin-bottom: 24px; line-height: 1.7; }
+    .btn-restart { padding: 10px 24px; background: #2563eb; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.2s; }
+    .btn-restart:hover { background: #1d4ed8; }
+
+    /* Utility */
+    .hidden { display: none !important; }
+    .text-blue { color: #2563eb; }
+    .mb-6 { margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-title">GAD HCP Screener</div>
+      <div class="header-step" id="stepCounter">1 / 15</div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+    <!-- All steps (only one visible at a time) -->
+    <div id="step-intro" class="step"></div>
+    <div id="step-consent" class="step hidden"></div>
+    <div id="step-confidentiality" class="step hidden"></div>
+    <div id="step-S0" class="step hidden"></div>
+    <div id="step-S10" class="step hidden"></div>
+    <div id="step-S25" class="step hidden"></div>
+    <div id="step-S41" class="step hidden"></div>
+    <div id="step-S50" class="step hidden"></div>
+    <div id="step-S60" class="step hidden"></div>
+    <div id="step-S63" class="step hidden"></div>
+    <div id="step-S65" class="step hidden"></div>
+    <div id="step-S70" class="step hidden"></div>
+    <div id="step-S72" class="step hidden"></div>
+    <div id="step-S86" class="step hidden"></div>
+    <div id="step-complete" class="step hidden"></div>
+    <div id="step-terminated" class="step hidden"></div>
+  </div>
+
+<script>
+// === DATA ===
+const STEPS = ['intro','consent','confidentiality','S0','S10','S25','S41','S50','S60','S63','S65','S70','S72','S86','complete'];
+
+const REGIONS = [
+  '北海道',
+  '東北地方（青森県、岩手県、宮城県、秋田県、山形県、福島県）',
+  '関東地方（茨城県、栃木県、群馬県、埼玉県、千葉県、神奈川県）',
+  '東京都',
+  '甲信越・北陸地方（新潟県、富山県、石川県、福井県、山梨県、長野県）',
+  '中部地方（岐阜県、静岡県、愛知県、三重県）',
+  '近畿地方（滋賀県、京都府、大阪府、兵庫県、奈良県、和歌山県）',
+  '中国地方（鳥取県、島根県、岡山県、広島県、山口県）',
+  '四国地方（徳島県、香川県、愛媛県、高知県）',
+  '九州・沖縄地方（福岡県、佐賀県、長崎県、熊本県、大分県、宮崎県、鹿児島県、沖縄県）',
+];
+
+const S25_ITEMS = [
+  '医療機器メーカー',
+  '市場調査会社、広告代理店、またはメディア関連企業',
+  '医薬品の承認審査を行う公的機関（PMDA、厚生労働省など）',
+  '医薬品またはバイオテクノロジーの製造業者、流通業者、小売業者、卸売業者、または医薬品の販売業者',
+  '製薬・バイオテクノロジー分野のコンサルタント、研究者、または医薬品の営業・製造に関与する臨床研究担当者',
+];
+
+const S70_CONDITIONS = ['全般性不安障害／不安症','摂食障害','大うつ病','統合失調症','双極性障害'];
+
+const S86_CATEGORIES = [
+  { category: '選択的セロトニン再取り込み阻害薬（SSRI）', drugs: ['エスシタロプラム（レクサプロ）','セルトラリン（ジェイゾロフト）'] },
+  { category: 'セロトニン・ノルアドレナリン再取り込み阻害薬（SNRI）', drugs: ['ベンラファキシン（イフェクサーSR）'] },
+  { category: 'アザピロン系', drugs: ['タンドスピロン（セディール）'] },
+  { category: 'ベンゾジアゼピン系', drugs: ['アルプラゾラム（ソラナックス、コンスタン）','ジアゼパム（セルシン、ホリゾン）','エチゾラム（デパス）'] },
+];
+
+// === STATE ===
+let currentStep = 'intro';
+let answers = {
+  consent:'', confidentiality:'', S0:'', S10:'', S25:{}, S41:'', S50:'',
+  S60:'', S63:'', S65:{patient:'',academic:'',admin:'',other:''},
+  S70:{}, S72:{under13:'',teen:'',adult:''}, S86:{}, S86_other:''
+};
+let terminateReason = '';
+
+// === SVG Icons ===
+const chevronLeft = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>';
+const chevronRight = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>';
+const alertTriangle = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>';
+const checkCircle = '<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
+const xCircle = '<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>';
+
+// === NAVIGATION ===
+function goTo(step) {
+  document.querySelectorAll('.step').forEach(el => el.classList.add('hidden'));
+  currentStep = step;
+  renderStep(step);
+  document.getElementById('step-' + step).classList.remove('hidden');
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress() {
+  const idx = STEPS.indexOf(currentStep);
+  const total = STEPS.length;
+  const pct = currentStep === 'terminated' ? 100 : Math.round((idx / (total - 1)) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  if (currentStep === 'terminated') {
+    document.getElementById('stepCounter').textContent = '';
+  } else {
+    document.getElementById('stepCounter').textContent = (idx + 1) + ' / ' + total;
+  }
+}
+
+function next() {
+  const idx = STEPS.indexOf(currentStep);
+  if (idx < STEPS.length - 1) goTo(STEPS[idx + 1]);
+}
+
+function prev() {
+  const idx = STEPS.indexOf(currentStep);
+  if (idx > 0) goTo(STEPS[idx - 1]);
+}
+
+function terminate(reason) {
+  terminateReason = reason;
+  goTo('terminated');
+}
+
+function restart() {
+  answers = {
+    consent:'', confidentiality:'', S0:'', S10:'', S25:{}, S41:'', S50:'',
+    S60:'', S63:'', S65:{patient:'',academic:'',admin:'',other:''},
+    S70:{}, S72:{under13:'',teen:'',adult:''}, S86:{}, S86_other:''
+  };
+  terminateReason = '';
+  goTo('intro');
+}
+
+// === Helper: build nav buttons ===
+function navHTML(onNextFn, canGoBack, nextLabel, nextDisabledId) {
+  const backBtn = canGoBack
+    ? `<button class="btn-back" onclick="prev()">${chevronLeft} 戻る</button>`
+    : '<div></div>';
+  const disabledAttr = nextDisabledId ? `id="${nextDisabledId}" disabled` : '';
+  return `<div class="nav">${backBtn}<button class="btn-next" onclick="${onNextFn}()" ${disabledAttr}>${nextLabel} ${chevronRight}</button></div>`;
+}
+
+// === Helper: radio option ===
+function radioOption(name, value, label, noteText, noteClass) {
+  const sel = answers[name] === value ? ' selected' : '';
+  const checked = answers[name] === value ? ' checked' : '';
+  const note = noteText ? `<span class="option-note ${noteClass || ''}">${noteText}</span>` : '';
+  return `<label class="option-item${sel}" onclick="setTimeout(()=>selectRadio('${name}','${value}'),0)">
+    <input type="radio" name="${name}" value="${value}"${checked} onchange="selectRadio('${name}','${value}')">
+    <span class="option-label">${label}</span>${note}</label>`;
+}
+
+function selectRadio(name, value) {
+  answers[name] = value;
+  renderStep(currentStep);
+  document.getElementById('step-' + currentStep).classList.remove('hidden');
+}
+
+// === RENDER EACH STEP ===
+function renderStep(step) {
+  const el = document.getElementById('step-' + step);
+  const fn = stepRenderers[step];
+  if (fn) el.innerHTML = fn();
+}
+
+const stepRenderers = {
+  intro: renderIntro,
+  consent: renderConsent,
+  confidentiality: renderConfidentiality,
+  S0: renderS0,
+  S10: renderS10,
+  S25: renderS25,
+  S41: renderS41,
+  S50: renderS50,
+  S60: renderS60,
+  S63: renderS63,
+  S65: renderS65,
+  S70: renderS70,
+  S72: renderS72,
+  S86: renderS86,
+  complete: renderComplete,
+  terminated: renderTerminated,
+};
+
+function renderIntro() {
+  return `<div class="card">
+    <div class="intro-center">
+      <div class="badge">HCP Screener for Japan</div>
+      <h1>GAD Patient Journey</h1>
+      <p class="subtitle">全般性不安障害ペイシェントジャーニー</p>
+      <p class="subtitle-sm">医師用スクリーナー</p>
+    </div>
+    <div class="base-sizes">
+      <h3>Base Sizes</h3>
+      <table class="base-table">
+        <thead><tr><th>Target</th><th>Japan</th></tr></thead>
+        <tbody>
+          <tr><td>精神科</td><td>4</td></tr>
+          <tr><td>内科</td><td>6</td></tr>
+          <tr><td>TOTAL</td><td>10</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="disclaimer">
+      <div class="disclaimer-header">${alertTriangle}<span class="disclaimer-title">ADVERSE EVENT DISCLAIMER</span></div>
+      <p>調査依頼元およびシード・プランニングは、患者様と製品の安全性の確保に努めております。ご参加は任意であり、先生の個人情報は機密として扱われ、匿名化されますが、本市場調査の過程で先生から提供される可能性のある安全性情報または製品品質情報を収集する義務が弊社にはあることをご承知おきください。この情報は、先生がすでに企業や規制当局に報告した場合でも、収集・報告されなければなりません。先生から提供された安全性情報または製品品質情報を収集・報告する必要がある場合、その報告に関連して先生の個人情報を開示する必要があります。</p>
+    </div>
+    <div class="info-text">
+      <p>本市場調査においてご提供いただく情報は、特定の疾患に対する治療実態の理解を深める目的で、集計・分析のうえ活用されます。</p>
+      <p>ご回答いただく内容はすべて機密として取り扱われます。書面により匿名性の放棄に同意いただかない限り、個人が特定されることはございません。</p>
+      <p>ご参加にあたり、いかなる質問に対しても回答を拒否する権利、およびいつでもご参加を中止する権利があります。</p>
+    </div>
+    <div class="nav"><div></div><button class="btn-next" onclick="next()">調査を開始する ${chevronRight}</button></div>
+  </div>`;
+}
+
+function renderConsent() {
+  return `<div class="card">
+    <div class="mb-6">
+      <span class="badge">同意確認</span>
+      <h2>このまま調査を進めることにご同意いただけますか？</h2>
+    </div>
+    <div class="option-list">
+      ${radioOption('consent','yes','はい')}
+      ${radioOption('consent','no','いいえ','終了','note-red')}
+    </div>
+    ${navHTML('handleConsentNext', true, '次へ', answers.consent ? '' : 'btnConsentNext')}
+  </div>`;
+}
+function handleConsentNext() {
+  if (answers.consent === 'yes') next();
+  else if (answers.consent === 'no') terminate('同意が得られなかったため、調査を終了します。');
+}
+
+function renderConfidentiality() {
+  return `<div class="card">
+    <div class="mb-6">
+      <span class="badge">CONFIDENTIALITY STATEMENT</span>
+      <h2>機密保持に関する同意</h2>
+    </div>
+    <div class="conf-box">
+      <p>本調査内では、企業の私的情報や機密情報をご覧頂く場合がございます。それらの情報には例として、試験のコンセプト、マーケティング・広告・クリエイティブ戦略や計画、製品名や潜在的な製品名・マークまたはロゴが含まれている可能性がありますが、この限りではありません。</p>
+      <p style="margin-top:12px">本調査への協力にご同意頂けた場合、先生には次の点にもご同意頂きたく存じます：</p>
+      <ul>
+        <li>（a）調査内で知りえたすべての情報を機密情報として取り扱うこと</li>
+        <li>（b）弊社からの事前かつ書面での承諾なしに、本調査内で知りえたいかなる情報も他者へ共有しないこと</li>
+        <li>（c）弊社からの事前かつ書面での承諾なしに知りえた情報を使用しないこと</li>
+        <li>（d）提示されたいかなる情報も、複製（コピー）、印刷、またはダウンロードしないこと</li>
+      </ul>
+    </div>
+    <p style="font-weight:500;color:#1f2937;margin-bottom:8px">以上のことに同意いただき、アンケートにご回答いただけますか？</p>
+    <div class="option-list">
+      ${radioOption('confidentiality','yes','はい')}
+      ${radioOption('confidentiality','no','いいえ','終了','note-red')}
+    </div>
+    ${navHTML('handleConfidentialityNext', true, '次へ', answers.confidentiality ? '' : 'btnConfNext')}
+  </div>`;
+}
+function handleConfidentialityNext() {
+  if (answers.confidentiality === 'yes') next();
+  else if (answers.confidentiality === 'no') terminate('機密保持への同意が得られなかったため、調査を終了します。');
+}
+
+function renderS0() {
+  return `<div class="card">
+    <div class="mb-6">
+      <span class="badge">S0</span>
+      <h2>性別を教えてください。</h2>
+    </div>
+    <div class="option-list">
+      ${radioOption('S0','male','男性')}
+      ${radioOption('S0','female','女性')}
+    </div>
+    ${navHTML('next', true, '次へ', answers.S0 ? '' : 'btnS0Next')}
+  </div>`;
+}
+
+function renderS10() {
+  let opts = '';
+  REGIONS.forEach((r, i) => {
+    const sel = answers.S10 === String(i) ? ' selected' : '';
+    const checked = answers.S10 === String(i) ? ' checked' : '';
+    opts += `<label class="option-item${sel}" onclick="setTimeout(()=>selectRadio('S10','${i}'),0)">
+      <input type="radio" name="S10" value="${i}"${checked} onchange="selectRadio('S10','${i}')">
+      <span class="option-label" style="font-size:13px">${r}</span></label>`;
+  });
+  return `<div class="card">
+    <div class="mb-6">
+      <span class="badge">S10</span>
+      <h2>先生の主なご勤務先はどの地域に所在していますか。</h2>
+      <p class="hint">1つ選択</p>
+    </div>
+    <div class="option-list compact">${opts}</div>
+    ${navHTML('next', true, '次へ', answers.S10 ? '' : 'btnS10Next')}
+  </div>`;
+}
+
+function renderS25() {
+  let blocks = '';
+  S25_ITEMS.forEach((item, i) => {
+    const yesChecked = answers.S25[i] === 'yes' ? ' checked' : '';
+    const noChecked = answers.S25[i] === 'no' ? ' checked' : '';
+    const yesSel = answers.S25[i] === 'yes' ? ' selected' : '';
+    const noSel = answers.S25[i] === 'no' ? ' selected' : '';
+    const noteHtml = (i === 0 && answers.S25[0] === 'yes') ? '<span class="option-note note-red" style="margin-left:8px">終了</span>' : '';
+    blocks += `<div class="s25-block">
+      <p class="s25-label">${item}</p>
+      <div class="s25-choices">
+        <label class="s25-choice${yesSel}" onclick="setTimeout(()=>selectS25(${i},'yes'),0)">
+          <input type="radio" name="s25_${i}" value="yes"${yesChecked} onchange="selectS25(${i},'yes')"><span>はい</span></label>
+        <label class="s25-choice${noSel}" onclick="setTimeout(()=>selectS25(${i},'no'),0)">
+          <input type="radio" name="s25_${i}" value="no"${noChecked} onchange="selectS25(${i},'no')"><span>いいえ</span></label>
+        ${noteHtml}
+      </div>
+    </div>`;
+  });
+  const allAnswered = S25_ITEMS.every((_, i) => answers.S25[i]);
+  return `<div class="card">
+    <div class="mb-6">
+      <span class="badge">S25</span>
+      <h2>先生ご自身もしくはご家族の中に、以下のいずれかの種類の企業・団体と報酬を伴う関係にある方はいらっしゃいますか。</h2>
+      <p class="hint">各項目についてそれぞれ1つ選択</p>
+    </div>
+    ${blocks}
+    ${navHTML('handleS25Next', true, '次へ', allAnswered ? '' : 'btnS25Next')}
+  </div>`;
+}
+function selectS25(idx, val) {
+  answers.S25[idx] = val;
+  renderStep('S25');
+  document.getElementById('step-S25').classList.remove('hidden');
+}
+function handleS25Next() {
+  if (answers.S25[0] === 'yes') { terminate('医療機器メーカーとの関係が確認されたため、調査を終了します。'); return; }
+  next();
+}
+
+function renderS41() {
+  const options = [
+    { value:'psychiatry', label:'精神科', note:'精神科として割付', cls:'note-blue' },
+    { value:'internal', label:'内科', note:'内科として割付', cls:'note-blue' },
+    { value:'other', label:'その他（具体的に）', note:'終了', cls:'note-red' },
+  ];
+  let opts = options.map(o => radioOption('S41', o.value, o.label, o.note, o.cls)).join('');
+  return `<div class="card">
+    <div class="mb-6">
+      <span class="badge">S41</span>
+      <h2>先生の主な専門領域を教えてください。</h2>
+      <p class="hint">1つ選択</p>
+    </div>
+    <div class="option-list">${opts}</div>
+    ${navHTML('handleS41Next', true, '次へ', answers.S41 ? '' : 'btnS41Next')}
+  </div>`;
+}
+function handleS41Next() {
+  if (answers.S41 === 'other') { terminate('対象外の専門領域のため、調査を終了します。'); return; }
+  next();
+}
+
+function renderS50() {
+  return `<div class="card">
+    <div class="mb-6">
+      <span class="badge">S50</span>
+      <h2>研修期間を終えてからの臨床経験年数を教えてください。</h2>
+      <p class="hint">3〜30年の範囲で入力してください</p>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <input type="number" class="num-input num-input-lg" min="1" max="50" value="${answers.S50}" oninput="answers.S50=this.value;updateS50Btn()" placeholder="0" id="inputS50">
+      <span class="input-unit" style="font-size:16px;font-weight:500">年</span>
+    </div>
+    ${navHTML('handleS50Next', true, '次へ', answers.S50 ? '' : 'btnS50Next')}
+  </div>`;
+}
+function updateS50Btn() {
+  const btn = document.getElementById('btnS50Next');
+  if (btn) btn.disabled = !answers.S50;
+}
+function handleS50Next() {
+  const y = parseInt(answers.S50);
+  if (isNaN(y) || y < 3 || y > 30) { terminate('臨床経験年数が対象範囲外（3〜30年）のため、調査を終了します。'); return; }
+  next();
+}
+
+function renderS60() {
+  const options = [
+    { value:'specialist', label:'精神科専門医（日本精神神経学会など）' },
+    { value:'designated', label:'厚生労働省認定の精神保健指定医' },
+    { value:'both', label:'上記いずれも' },
+    { value:'none', label:'いずれにも該当しない' },
+  ];
+  let opts = options.map(o => radioOption('S60', o.value, o.label)).join('');
+  return `<div class="card">
+    <div class="mb-6">
+      <span class="badge">S60</span>
+      <h2>以下の認定をお持ちですか？</h2>
+      <p class="hint">1つ選択</p>
+    </div>
+    <div class="option-list">${opts}</div>
+    ${navHTML('next', true, '次へ', answers.S60 ? '' : 'btnS60Next')}
+  </div>`;
+}
+
+function renderS63() {
+  const options = [
+    { value:'clinic', label:'クリニック', note:'コミュニティと割付', cls:'note-blue' },
+    { value:'public_hospital', label:'総合病院（公立）' },
+    { value:'private_hospital', label:'総合病院（私立）' },
+    { value:'psychiatric_hospital', label:'精神科単科病院' },
+    { value:'university_hospital', label:'大学病院', note:'アカデミックと割付', cls:'note-blue' },
+    { value:'other', label:'その他（具体的に）', note:'保留し継続', cls:'note-blue' },
+  ];
+  let opts = options.map(o => radioOption('S63', o.value, o.label, o.note, o.cls)).join('');
+  return `<div class="card">
+    <div class="mb-6">
+      <span class="badge">S63</span>
+      <h2>先生は以下のうち主にどの施設で患者さんを診療されていますか？</h2>
+      <p class="hint">1つ選択</p>
+    </div>
+    <div class="option-list">${opts}</div>
+    ${navHTML('next', true, '次へ', answers.S63 ? '' : 'btnS63Next')}
+  </div>`;
+}
+
+function renderS65() {
+  const s = answers.S65;
+  const total = (parseFloat(s.patient)||0)+(parseFloat(s.academic)||0)+(parseFloat(s.admin)||0)+(parseFloat(s.other)||0);
+  const ok = Math.abs(total - 100) < 0.5;
+  const items = [
+    { key:'patient', label:'患者さんの治療・診察', note:'60%以上必須' },
+    { key:'academic', label:'学術的業務（研究や教育、論文執筆など）' },
+    { key:'admin', label:'管理業務' },
+    { key:'other', label:'その他' },
+  ];
+  let rows = items.map(it => `<div class="input-row">
+    <div class="input-label"><p>${it.label}</p>${it.note ? `<span class="input-note">${it.note}</span>` : ''}</div>
+    <input type="number" class="num-input" min="0" max="100" value="${s[it.key]}" oninput="answers.S65.${it.key}=this.value;updateS65()" placeholder="0">
+    <span class="input-unit">%</span>
+  </div>`).join('');
+  const totalClass = ok ? 'total-ok' : 'total-ng';
+  const totalText = ok ? `合計: ${total}%` : `合計: ${total}%（100%にしてください）`;
+  return `<div class="card">
+    <div class="mb-6">
+      <span class="badge">S65</span>
+      <h2>先生のご勤務時間のうち、以下のような内容に費やしている時間はおよそ何パーセントですか？</h2>
+      <p class="hint">合計が100%になるように入力してください</p>
+    </div>
+    ${rows}
+    <div class="total-bar ${totalClass}">${totalText}</div>
+    ${navHTML('handleS65Next', true, '次へ', ok ? '' : 'btnS65Next')}
+  </div>`;
+}
+function updateS65() {
+  renderStep('S65');
+  document.getElementById('step-S65').classList.remove('hidden');
+}
+function handleS65Next() {
+  const s = answers.S65;
+  const total = (parseFloat(s.patient)||0)+(parseFloat(s.academic)||0)+(parseFloat(s.admin)||0)+(parseFloat(s.other)||0);
+  if (Math.abs(total-100) > 0.5) { alert('合計が100%になるように入力してください。'); return; }
+  if ((parseFloat(s.patient)||0) < 60) { terminate('患者さんの治療・診察に費やす時間が60%に満たないため、調査を終了します。'); return; }
+  next();
+}
+
+function renderS70() {
+  let rows = S70_CONDITIONS.map((c, i) => `<div class="input-row">
+    <div class="input-label"><p>${c}</p>${i===0 ? '<span class="input-note">5名以上必須</span>' : ''}</div>
+    <input type="number" class="num-input" min="0" value="${answers.S70[i]||''}" oninput="answers.S70[${i}]=this.value" placeholder="0">
+    <span class="input-unit">名</span>
+  </div>`).join('');
+  const noneChecked = answers.S70.none === 'yes' ? ' checked' : '';
+  const noneSel = answers.S70.none === 'yes' ? ' selected' : '';
+  return `<div class="card">
+    <div class="mb-6">
+      <span class="badge">S70</span>
+      <h2>現在、以下の患者さんを何名治療または管理していらっしゃいますか？</h2>
+      <p class="hint">回答を数字で記録（全般性不安障害は5名以上必須）</p>
+    </div>
+    ${rows}
+    <hr class="separator">
+    <label class="option-item${noneSel}" onclick="setTimeout(()=>toggleS70None(),0)">
+      <input type="checkbox"${noneChecked} onchange="toggleS70None()">
+      <span class="option-label">いずれにも該当しない</span>
+      <span class="option-note note-red">終了</span>
+    </label>
+    ${navHTML('handleS70Next', true, '次へ', '')}
+  </div>`;
+}
+function toggleS70None() {
+  answers.S70.none = answers.S70.none === 'yes' ? '' : 'yes';
+  renderStep('S70');
+  document.getElementById('step-S70').classList.remove('hidden');
+}
+function handleS70Next() {
+  if (answers.S70.none === 'yes') { terminate('いずれの疾患にも該当しないため、調査を終了します。'); return; }
+  const gad = parseInt(answers.S70[0]) || 0;
+  if (gad < 5) { terminate('全般性不安障害の患者数が5名に満たないため、調査を終了します。'); return; }
+  next();
+}
+
+function renderS72() {
+  const gadCount = answers.S70[0] || '0';
+  const s = answers.S72;
+  const total = (parseFloat(s.under13)||0)+(parseFloat(s.teen)||0)+(parseFloat(s.adult)||0);
+  const ok = Math.abs(total - 100) < 0.5;
+  const items = [
+    { key:'under13', label:'13歳未満' },
+    { key:'teen', label:'13～17歳' },
+    { key:'adult', label:'18歳以上', note:'50%以上必須' },
+  ];
+  let rows = items.map(it => `<div class="input-row">
+    <div class="input-label"><p>${it.label}</p>${it.note ? `<span class="input-note">${it.note}</span>` : ''}</div>
+    <input type="number" class="num-input" min="0" max="100" value="${s[it.key]}" oninput="answers.S72.${it.key}=this.value;updateS72()" placeholder="0">
+    <span class="input-unit">%</span>
+  </div>`).join('');
+  const totalClass = ok ? 'total-ok' : 'total-ng';
+  const totalText = ok ? `合計: ${total}%` : `合計: ${total}%（100%にしてください）`;
+  return `<div class="card">
+    <div class="mb-6">
+      <span class="badge">S72</span>
+      <h2>先生が診られている全般性不安障害／不安症患者 <span class="text-blue">${gadCount}人</span> のうち、以下のグループに該当するのはそれぞれ何パーセントですか？</h2>
+      <p class="hint">合計が100%になるように入力してください</p>
+    </div>
+    ${rows}
+    <div class="total-bar ${totalClass}">${totalText}</div>
+    ${navHTML('handleS72Next', true, '次へ', ok ? '' : 'btnS72Next')}
+  </div>`;
+}
+function updateS72() {
+  renderStep('S72');
+  document.getElementById('step-S72').classList.remove('hidden');
+}
+function handleS72Next() {
+  const s = answers.S72;
+  const total = (parseFloat(s.under13)||0)+(parseFloat(s.teen)||0)+(parseFloat(s.adult)||0);
+  if (Math.abs(total-100) > 0.5) { alert('合計が100%になるように入力してください。'); return; }
+  if ((parseFloat(s.adult)||0) < 50) { terminate('成人患者（18歳以上）の割合が50%に満たないため、調査を終了します。'); return; }
+  next();
+}
+
+function renderS86() {
+  let html = '';
+  let drugIdx = 0;
+  S86_CATEGORIES.forEach(cat => {
+    html += `<div class="drug-category"><p class="drug-category-title">${cat.category}</p><div class="option-list" style="margin-top:8px">`;
+    cat.drugs.forEach(drug => {
+      const idx = drugIdx;
+      const checked = answers.S86[idx] === 'yes' ? ' checked' : '';
+      const sel = answers.S86[idx] === 'yes' ? ' selected' : '';
+      html += `<label class="option-item${sel}">
+        <input type="checkbox"${checked} onchange="toggleS86(${idx},this.checked)">
+        <span class="option-label">${drug}</span></label>`;
+      drugIdx++;
+    });
+    html += '</div></div>';
+  });
+  // Other text input
+  html += `<div class="drug-category"><p class="drug-category-title">その他</p>
+    <input type="text" class="text-input" value="${escHtml(answers.S86_other)}" oninput="answers.S86_other=this.value" placeholder="上記以外の治療薬（具体的に）">
+  </div>`;
+  // None checkbox
+  const noneChecked = answers.S86.none === 'yes' ? ' checked' : '';
+  const noneSel = answers.S86.none === 'yes' ? ' selected' : '';
+  html += `<hr class="separator"><label class="option-item${noneSel}">
+    <input type="checkbox"${noneChecked} onchange="toggleS86None(this.checked)">
+    <span class="option-label">いずれも該当しない</span>
+    <span class="option-note note-red">終了</span></label>`;
+
+  return `<div class="card">
+    <div class="mb-6">
+      <span class="badge">S86</span>
+      <h2>通常の1か月間において、先生ご自身が全般性不安障害／不安症の患者さんに対して処方されている治療薬はどれですか。</h2>
+      <p class="hint">該当するものすべてを選択</p>
+    </div>
+    ${html}
+    ${navHTML('handleS86Next', true, '完了', '')}
+  </div>`;
+}
+function toggleS86(idx, checked) {
+  answers.S86[idx] = checked ? 'yes' : '';
+  renderStep('S86');
+  document.getElementById('step-S86').classList.remove('hidden');
+}
+function toggleS86None(checked) {
+  answers.S86.none = checked ? 'yes' : '';
+  renderStep('S86');
+  document.getElementById('step-S86').classList.remove('hidden');
+}
+function handleS86Next() {
+  const totalDrugs = S86_CATEGORIES.reduce((s,c) => s + c.drugs.length, 0);
+  let hasOne = false;
+  for (let i = 0; i < totalDrugs; i++) { if (answers.S86[i] === 'yes') hasOne = true; }
+  if (!hasOne && !answers.S86_other) {
+    if (answers.S86.none === 'yes') { terminate('いずれの治療薬も処方していないため、調査を終了します。'); return; }
+    alert('少なくとも1つの治療薬を選択してください。'); return;
+  }
+  next();
+}
+
+function renderComplete() {
+  return `<div class="card result">
+    ${checkCircle}
+    <h2>スクリーニング完了</h2>
+    <p>本日はお時間をいただき、ありがとうございました。ご予定されている調査について、その他ご不明点がございましたら、お気軽にお知らせください。</p>
+    <button class="btn-restart" onclick="restart()">最初からやり直す</button>
+  </div>`;
+}
+
+function renderTerminated() {
+  return `<div class="card result">
+    ${xCircle}
+    <h2>調査終了</h2>
+    <p>${escHtml(terminateReason)}</p>
+    <div class="reason">今回は残念ながら、調査の対象条件に該当しなかったため、ここで終了とさせていただきます。ご関心をお寄せいただき、誠に感謝申し上げます。今後、別の調査でご協力いただける機会がございましたら、ぜひご参加ください。本日はありがとうございました。</div>
+    <button class="btn-restart" onclick="restart()">最初からやり直す</button>
+  </div>`;
+}
+
+function escHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = s || '';
+  return d.innerHTML;
+}
+
+// === Init ===
+goTo('intro');
+</script>
+</body>
+</html>
