@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Artemis II Orion Integrity | Free-Return Visualizer</title>
+  <link rel="stylesheet" href="src/style.css" />
+</head>
+<body>
+  <div id="app-shell">
+    <header id="topbar">
+      <div class="traffic"><span></span><span></span><span></span></div>
+      <div class="title">ARTEMIS II / ORION INTEGRITY / FREE-RETURN VISUALIZER</div>
+      <div class="data-badge">NASA/JPL HORIZONS</div>
+    </header>
+
+    <main id="viewport">
+      <canvas id="spaceCanvas" aria-label="Interactive 3D Artemis II trajectory rendering"></canvas>
+      <canvas id="hudCanvas" aria-hidden="true"></canvas>
+      <div id="labelsLayer" aria-hidden="true"></div>
+
+      <aside class="panel panel-left" aria-label="Mission telemetry">
+        <section class="card clock-card">
+          <div class="field-label">MET</div>
+          <div id="metText" class="big-mono">T+0/00:00</div>
+          <div class="row"><span>UTC</span><b id="utcText">--</b></div>
+          <div class="row"><span>EARTH</span><b id="earthRangeText">--</b></div>
+          <div class="row"><span>MOON</span><b id="moonRangeText">--</b></div>
+          <div class="phase" id="phaseText">--</div>
+        </section>
+
+        <section class="card event-card">
+          <div class="field-label">CURRENT EVENT <span id="eventCode">--</span></div>
+          <h2 id="eventTitle">Mission coast</h2>
+          <p id="eventDescription">Drag to rotate, scroll to zoom, or scrub the timeline.</p>
+        </section>
+
+        <section class="card chart-card">
+          <div class="mini-chart-head"><span>VELOCITY</span><b id="speedText">--</b></div>
+          <canvas id="velocitySpark" width="280" height="72"></canvas>
+          <div class="mini-chart-head"><span>EARTH RANGE</span><b id="earthChartText">--</b></div>
+          <canvas id="earthRangeSpark" width="280" height="72"></canvas>
+          <div class="mini-chart-head"><span>MOON RANGE</span><b id="moonChartText">--</b></div>
+          <canvas id="moonRangeSpark" width="280" height="72"></canvas>
+        </section>
+      </aside>
+
+      <aside class="panel panel-right" aria-label="Guidance and mission queue">
+        <section class="card overview-card">
+          <div class="field-label">FREE-RETURN OVERVIEW <span id="overviewMode">FULL MAP</span></div>
+          <canvas id="overviewCanvas" width="260" height="118"></canvas>
+        </section>
+
+        <section class="card guidance-card">
+          <div class="field-label">GUIDANCE <span id="vectorTag">OUTBOUND</span></div>
+          <h2>Actual JPL State Vectors</h2>
+          <div class="row"><span>VECTOR FRAME</span><b>ICRF/ECLIPTIC</b></div>
+          <div class="row"><span>INTERPOLATION</span><b>Hourly vectors</b></div>
+          <div class="row"><span>MOON PC</span><b id="guidanceMoon">8,282 km center</b></div>
+          <div class="row"><span>MAX EARTH</span><b id="guidanceEarth">413,146 km</b></div>
+        </section>
+
+        <section class="card queue-card">
+          <div class="field-label">MISSION QUEUE <span>PHASE LOG</span></div>
+          <div id="missionQueue"></div>
+        </section>
+      </aside>
+    </main>
+
+    <footer id="timelinePanel">
+      <div class="playback-head"><span>MISSION PLAYBACK</span><b id="footerMet">T+0/00:00</b></div>
+      <div class="controls-row">
+        <button id="playBtn" class="button">Play</button>
+        <button id="resetBtn" class="button ghost">Reset</button>
+        <button id="speed1" class="button ghost speed active" data-speed="1">1x</button>
+        <button id="speed5" class="button ghost speed" data-speed="5">5x</button>
+        <button id="speed20" class="button ghost speed" data-speed="20">20x</button>
+        <select id="presetSelect" class="select" aria-label="Camera preset">
+          <option value="full">Full Free Return</option>
+          <option value="flyby">Lunar Flyby</option>
+          <option value="earth">Earth Departure</option>
+          <option value="return">Return Leg</option>
+        </select>
+        <label class="toggle"><input id="trueScaleToggle" type="checkbox" /> True scale</label>
+      </div>
+      <input id="timeSlider" type="range" min="0" max="213" step="0.01" value="0" />
+      <div id="tickStrip"></div>
+      <div class="options-row">
+        <label><input id="outboundArc" type="checkbox" checked /> Show outbound arc</label>
+        <label><input id="inboundArc" type="checkbox" checked /> Show inbound arc</label>
+        <label><input id="showLabels" type="checkbox" checked /> Show labels</label>
+        <label><input id="showTrails" type="checkbox" checked /> Show trajectory trails</label>
+        <label><input id="showGuides" type="checkbox" checked /> Show orbit guides</label>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "artemis-ii-orion-visualizer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Standalone interactive 3D Canvas visualizer for the Artemis II Orion Integrity free-return mission.",
+  "scripts": {
+    "test": "node tests/ephemeris.test.mjs",
+    "serve": "python3 -m http.server 8787"
+  }
+}
