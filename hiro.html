@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Have the best time!!</title>
+  <style>
+    :root {
+      --bg-start: #fffaf0;
+      --bg-end: #f7efe2;
+      --ink: #2a1a0e;
+      --soft-ink: rgba(42, 26, 14, 0.7);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 45%, var(--bg-start) 0%, var(--bg-end) 72%, #efe1ce 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      color: var(--ink);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.8), transparent 28%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.35), transparent 32%);
+      opacity: 0.75;
+    }
+
+    .page {
+      position: relative;
+      width: 100%;
+      height: 100svh;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: max(24px, env(safe-area-inset-top)) 24px max(28px, env(safe-area-inset-bottom));
+      text-align: center;
+      isolation: isolate;
+    }
+
+    .logo-wrap {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: min(54vw, 250px);
+      aspect-ratio: 1 / 1;
+      transform: translate(-50%, -50%) scale(0.18);
+      opacity: 0;
+      filter: drop-shadow(0 18px 28px rgba(42, 26, 14, 0.18));
+      animation: logoIntro 3.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      z-index: 1;
+    }
+
+    .logo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      animation: logoBreath 4s ease-in-out 3.8s infinite;
+    }
+
+    .message {
+      position: relative;
+      z-index: 2;
+      max-width: 90vw;
+      transform: translateY(18px);
+      opacity: 0;
+      animation: messageIn 1.25s ease-out 3.1s forwards;
+    }
+
+    .message h1 {
+      margin: 0;
+      font-size: clamp(2.75rem, 13vw, 5.8rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+      font-weight: 850;
+      text-wrap: balance;
+      color: var(--ink);
+      text-shadow: 0 5px 20px rgba(255, 255, 255, 0.65);
+    }
+
+    .message p {
+      margin: 18px auto 0;
+      font-size: clamp(0.95rem, 4.2vw, 1.2rem);
+      line-height: 1.55;
+      color: var(--soft-ink);
+      letter-spacing: 0.02em;
+    }
+
+    .sparkles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(42, 26, 14, 0.55);
+      opacity: 0;
+      animation: sparkle 2.8s ease-in-out infinite;
+    }
+
+    .sparkle:nth-child(1) { left: 18%; top: 22%; animation-delay: 2.7s; }
+    .sparkle:nth-child(2) { left: 78%; top: 24%; animation-delay: 3.0s; }
+    .sparkle:nth-child(3) { left: 14%; top: 72%; animation-delay: 3.2s; }
+    .sparkle:nth-child(4) { left: 83%; top: 68%; animation-delay: 3.4s; }
+    .sparkle:nth-child(5) { left: 50%; top: 15%; animation-delay: 3.6s; }
+
+    .tap-hint {
+      position: fixed;
+      left: 50%;
+      bottom: max(18px, env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      font-size: 0.78rem;
+      color: rgba(42, 26, 14, 0.45);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: hintIn 1s ease-out 5s forwards;
+      z-index: 4;
+    }
+
+    .replay:active {
+      transform: scale(0.98);
+    }
+
+    @keyframes logoIntro {
+      0% {
+        transform: translate(-50%, -50%) scale(0.18) rotate(-8deg);
+        opacity: 0;
+      }
+      18% {
+        opacity: 1;
+      }
+      48% {
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(4.9) rotate(0deg);
+        opacity: 0.14;
+      }
+    }
+
+    @keyframes logoBreath {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.025); }
+    }
+
+    @keyframes messageIn {
+      from {
+        transform: translateY(18px) scale(0.98);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes sparkle {
+      0%, 100% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+      45% {
+        transform: scale(1.6);
+        opacity: 0.65;
+      }
+    }
+
+    @keyframes hintIn {
+      to { opacity: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .logo-wrap,
+      .message,
+      .logo,
+      .sparkle,
+      .tap-hint {
+        animation: none;
+      }
+
+      .logo-wrap {
+        opacity: 0.12;
+        transform: translate(-50%, -50%) scale(4.4);
+      }
+
+      .message,
+      .tap-hint {
+        opacity: 1;
+        transform: translateX(-50%);
+      }
+
+      .message {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page replay" aria-label="Send-off message for Hiro">
+    <div class="sparkles" aria-hidden="true">
+      <span class="sparkle"></span>
+      <span class="sparkle"></span>
+      <span class="sparkle"></span>
+      <span class="sparkle"></span>
+      <span class="sparkle"></span>
+    </div>
+
+    <div class="logo-wrap" aria-hidden="true">
+      <img class="logo" src="Fiji.png" alt="" />
+    </div>
+
+    <section class="message">
+      <h1>Have the<br />best time!!</h1>
+      <p>Enjoy every moment in Fiji.</p>
+    </section>
+
+    <div class="tap-hint">Tap to replay</div>
+  </main>
+
+  <script>
+    const page = document.querySelector('.page');
+    const logoWrap = document.querySelector('.logo-wrap');
+    const message = document.querySelector('.message');
+    const hint = document.querySelector('.tap-hint');
+    const sparkles = document.querySelectorAll('.sparkle');
+
+    page.addEventListener('click', () => {
+      const animated = [logoWrap, message, hint, ...sparkles];
+
+      animated.forEach((el) => {
+        el.style.animation = 'none';
+        void el.offsetWidth;
+        el.style.animation = '';
+      });
+    });
+  </script>
+</body>
+</html>
