@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>シードメディカルパネル｜専門領域登録 UIモック</title>
+<style>
+:root{
+  --navy:#243A52; --navy2:#334B60; --green:#5F8475; --green2:#567A6C;
+  --bg:#F5F6F7; --surface:#FFFFFF; --surface2:#FAFBFC; --border:#E6E8EB;
+  --text:#2B2F33; --sub:#6B7280; --danger:#B94A48; --focus:#BFD3CA;
+  --shadow:0 5px 18px rgba(36,58,82,.06); --radius:12px; --tap:44px; --max:1120px;
+  --input-bg:#E8F0FE; --input-bg-border:#CFDDF7;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans","Noto Sans JP",sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
+button,input{font:inherit}
+button:focus-visible,input:focus-visible{outline:3px solid rgba(95,132,117,.25);outline-offset:2px}
+.header{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:40}
+.header-inner{max-width:var(--max);margin:auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand-mark{width:36px;height:36px;border-radius:10px;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:800}
+.brand-copy small{display:block;color:var(--sub);font-size:11px;letter-spacing:.02em}
+.brand-copy strong{display:block;color:var(--navy);font-size:15px}
+.step{font-size:12px;color:var(--sub);white-space:nowrap}
+.page{max-width:var(--max);margin:auto;padding:28px 20px 116px}
+.intro{margin-bottom:18px}
+.intro .eyebrow{font-size:12px;color:var(--green);font-weight:800;margin-bottom:7px}
+.intro h1{font-size:28px;line-height:1.35;margin:0 0 8px;color:var(--navy)}
+.intro p{margin:0;color:var(--sub);font-size:14px;max-width:820px}
+.rule-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.rule{font-size:12px;padding:7px 10px;border:1px solid var(--border);background:#fff;border-radius:999px;color:var(--navy);font-weight:700}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);margin-top:18px;overflow:hidden}
+.card-head{padding:18px 20px;border-bottom:1px solid var(--border)}
+.card-title-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.card-head h2{margin:0;font-size:19px;color:var(--navy)}
+.badge{font-size:11px;font-weight:800;border-radius:999px;padding:5px 9px}
+.badge.required{background:#FFF5F4;color:#9C403D;border:1px solid #F0D4D1}
+.badge.optional{background:#F3F5F7;color:var(--sub);border:1px solid #E2E6EA}
+.card-head p{margin:7px 0 0;color:var(--sub);font-size:13px}
+.card-body{padding:18px 20px 20px}
+.toolbar{display:grid;grid-template-columns:minmax(260px, 1fr) auto;gap:12px;align-items:center;margin-bottom:14px}
+.search-wrap{position:relative}
+.search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#7C8792;font-size:16px;pointer-events:none}
+.search{width:100%;min-height:46px;padding:0 14px 0 39px;border:1px solid var(--input-bg-border);border-radius:10px;background:var(--input-bg);color:var(--text)}
+.search::placeholder{color:#6B84A6}
+.search:focus-visible{background:#fff;border-color:var(--green)}
+.count{font-size:12px;color:var(--sub);white-space:nowrap}
+.tabs-label{font-size:12px;color:var(--sub);margin:4px 0 7px}
+.tabs{display:flex;gap:7px;overflow:auto;padding:2px 1px 9px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.tab{min-height:40px;padding:0 13px;border-radius:999px;border:1px solid #D9DEE3;background:#fff;color:#59636E;white-space:nowrap;cursor:pointer;font-size:13px;font-weight:700}
+.tab:hover{border-color:#B8C5D0}
+.tab.active-main{background:var(--navy);color:#fff;border-color:var(--navy)}
+.tab.active-sub{background:#E9F1EE;color:#315347;border-color:#C8D9D2}
+.tabs.dim .tab{opacity:.45}
+.tabs.dim .tab.active-main,.tabs.dim .tab.active-sub{opacity:.7}
+.search-note{font-size:11.5px;color:var(--green2);font-weight:700;margin:2px 0 9px}
+.helper{margin:0 0 14px;padding:11px 13px;background:#F8FBFA;border:1px solid #DCE7E1;border-radius:10px;color:#466356;font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:9px}
+.choice{min-height:48px;text-align:left;padding:10px 13px;border:1px solid #D8DDE2;background:#fff;border-radius:10px;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.choice:hover{border-color:#AEBCC7;background:#FCFDFD}
+.choice .label{font-size:14px;font-weight:650;display:flex;align-items:center;gap:7px}
+.choice .check{display:inline-flex;width:16px;height:16px;border-radius:50%;align-items:center;justify-content:center;font-size:10px;line-height:1;flex-shrink:0;background:rgba(255,255,255,.22);color:#fff}
+.choice.selected-sub .check{background:var(--green);color:#fff}
+.choice .meta{font-size:10px;color:#87919B;white-space:nowrap}
+.choice.selected-main{background:var(--navy);border-color:var(--navy);color:#fff}
+.choice.selected-main .meta{color:#DCE5ED}
+.choice.selected-sub{background:#EAF3EF;border-color:#BCD1C8;color:#315347}
+.choice.selected-sub .meta{color:#527263}
+.choice.disabled{background:#F2F3F5;border-color:#E3E6E9;color:#A0A7AE;cursor:not-allowed}
+.choice.disabled .meta{color:#A0A7AE}
+.empty{padding:24px 12px;color:var(--sub);text-align:center;border:1px dashed #D7DCE1;border-radius:10px;background:#FBFCFC}
+.prompt{padding:26px 18px;text-align:center;border:1px solid #DCE7E1;border-radius:10px;background:#F8FBFA}
+.prompt .icon{font-size:20px;display:block;margin-bottom:6px}
+.prompt p{margin:0;color:#466356;font-size:13px;font-weight:650}
+.prompt small{display:block;margin-top:5px;color:#6B8577;font-size:11.5px;font-weight:500}
+.selected-area{margin-top:16px;padding-top:15px;border-top:1px solid var(--border)}
+.selected-label{font-size:12px;color:var(--sub);font-weight:700;margin-bottom:8px}
+.selected-main-box{display:inline-flex;align-items:center;gap:8px;background:#F1F5F8;color:var(--navy);border:1px solid #D6E0E8;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:750}
+.selected-tags{display:flex;gap:8px;flex-wrap:wrap}
+.tag{display:inline-flex;align-items:center;gap:7px;background:#F0F6F3;border:1px solid #D4E2DC;color:#315347;border-radius:999px;padding:7px 10px 7px 12px;font-size:13px}
+.tag button{width:24px;height:24px;border:0;border-radius:50%;background:transparent;color:#60736A;cursor:pointer;padding:0}
+.tag button:hover{background:#DDEAE4}
+.none{font-size:13px;color:#8A929A}
+.info-strip{margin-top:18px;padding:14px 16px;border:1px solid var(--border);border-radius:10px;background:#FAFBFC;color:var(--sub);font-size:12px}
+.dev{margin-top:18px;border:1px dashed #C9D1D8;border-radius:10px;background:#fff}
+.dev summary{cursor:pointer;padding:12px 14px;color:var(--navy);font-weight:800;font-size:12px}
+.dev-content{padding:0 14px 14px;color:#56606A;font-size:12px}
+.dev-content code{background:#F2F4F6;padding:2px 5px;border-radius:5px}
+.dev-content ul{margin:8px 0 0;padding-left:18px}
+.footer{position:fixed;left:0;right:0;bottom:0;z-index:45;background:rgba(255,255,255,.97);border-top:1px solid var(--border)}
+.footer-inner{max-width:var(--max);margin:auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.footer-summary{min-width:0}
+.footer-summary strong{display:block;font-size:13px;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:700px}
+.footer-summary span{display:block;font-size:11px;color:var(--sub)}
+.actions{display:flex;gap:9px;flex-shrink:0}
+.btn{min-height:44px;padding:0 16px;border-radius:10px;border:1px solid #D6DCE1;background:#fff;color:var(--navy);font-weight:800;cursor:pointer}
+.btn.primary{background:var(--green);color:#fff;border-color:var(--green)}
+.btn.primary:hover{background:var(--green2)}
+.error{display:none;color:var(--danger);font-size:12px;font-weight:800;margin-top:10px}
+.error.show{display:block}
+.modal-backdrop{position:fixed;inset:0;background:rgba(25,33,40,.42);z-index:80;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-backdrop.show{display:flex}
+.modal{width:min(620px,100%);max-height:82vh;overflow:auto;background:#fff;border-radius:14px;border:1px solid var(--border);box-shadow:0 24px 60px rgba(20,30,40,.22)}
+.modal-head{padding:18px 20px;border-bottom:1px solid var(--border)}
+.modal-head h3{margin:0;color:var(--navy);font-size:19px}
+.modal-body{padding:18px 20px}
+.confirm-block{margin-bottom:16px}
+.confirm-block label{display:block;color:var(--sub);font-size:12px;font-weight:700;margin-bottom:5px}
+.confirm-block div{font-size:14px;color:var(--text)}
+.modal-foot{padding:14px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:9px}
+@media (max-width:760px){
+  .header-inner{padding:12px 15px} .step{display:none}
+  .page{padding:20px 14px 132px} .intro h1{font-size:22px}
+  .card-head{padding:16px} .card-body{padding:15px}
+  .toolbar{grid-template-columns:1fr} .count{justify-self:start}
+  .grid{grid-template-columns:1fr} .choice{min-height:50px}
+  .footer-inner{padding:10px 14px;align-items:stretch;flex-direction:column;gap:8px}
+  .footer-summary strong{max-width:none} .actions{width:100%} .actions .btn{flex:1}
+}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-mark">S</div>
+      <div class="brand-copy"><small>Seed Planning Medical Panel</small><strong>シードメディカルパネル</strong></div>
+    </div>
+    <div class="step">会員登録　2 / 3</div>
+  </div>
+</header>
+
+<main class="page">
+  <section class="intro">
+    <div class="eyebrow">専門領域の登録</div>
+    <h1>現在の専門領域を教えてください</h1>
+    <p>調査のご案内を適切にお届けするため、主に診療されている領域と、その他に診療されている領域をご登録ください。</p>
+    <div class="rule-row">
+      <span class="rule">主たる専門領域：必須・1つ</span>
+      <span class="rule">その他の専門・診療領域：任意・複数可</span>
+      <span class="rule">同じ領域の重複選択は不可</span>
+    </div>
+  </section>
+
+  <section class="card" id="mainCard">
+    <div class="card-head">
+      <div class="card-title-row"><h2>主に診療されている専門領域</h2><span class="badge required">必須 / 1つ</span></div>
+      <p>最もあてはまる専門領域を1つ選択してください。</p>
+    </div>
+    <div class="card-body">
+      <div class="toolbar">
+        <div class="search-wrap"><span class="search-icon">⌕</span><input class="search" id="mainSearch" type="search" placeholder="専門領域名で検索（例：循環器、腫瘍、救急）" autocomplete="off"></div>
+        <div class="count" id="mainCount"></div>
+      </div>
+      <div class="search-note" id="mainSearchNote" style="display:none">検索条件を優先しています（カテゴリの絞り込みは一時的に解除されています）</div>
+      <div class="tabs-label">カテゴリから選ぶ</div>
+      <div class="tabs" id="mainTabs"></div>
+      <p class="helper">カテゴリを選ぶと、その領域の専門科だけが表示されます。すべてを一覧したいときは「すべて」を選んでください。</p>
+      <div class="grid" id="mainGrid"></div>
+      <div class="selected-area">
+        <div class="selected-label">現在の選択</div>
+        <div id="mainSelected"><span class="none">まだ選択されていません</span></div>
+        <div class="error" id="mainError">主たる専門領域を1つ選択してください。</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" id="subCard">
+    <div class="card-head">
+      <div class="card-title-row"><h2>その他の専門・診療領域</h2><span class="badge optional">任意 / 複数可</span></div>
+      <p>主たる専門領域以外に、現在診療されている領域がある場合は選択してください。</p>
+    </div>
+    <div class="card-body">
+      <div class="toolbar">
+        <div class="search-wrap"><span class="search-icon">⌕</span><input class="search" id="subSearch" type="search" placeholder="専門領域名で検索" autocomplete="off"></div>
+        <div class="count" id="subCount"></div>
+      </div>
+      <div class="search-note" id="subSearchNote" style="display:none">検索条件を優先しています（カテゴリの絞り込みは一時的に解除されています）</div>
+      <div class="tabs-label">カテゴリから選ぶ</div>
+      <div class="tabs" id="subTabs"></div>
+      <p class="helper">主たる専門領域として選択した項目は、ここでは選択できません。カテゴリを選ぶと絞り込んで表示されます。</p>
+      <div class="grid" id="subGrid"></div>
+      <div class="selected-area">
+        <div class="selected-label">選択中のその他の専門・診療領域</div>
+        <div class="selected-tags" id="subSelected"><span class="none">選択は任意です</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="info-strip">このモックでは、診療科マスターに登録されている <strong>129件</strong> の専門領域をすべて選択対象として表示しています。画面上では内部管理コードを表示せず、保存時のみコードで保持する想定です。</div>
+
+  <details class="dev">
+    <summary>KUSSHU様向け：実装確認事項</summary>
+    <div class="dev-content">
+      <ul>
+        <li>診療科マスターは <strong>19カテゴリ / 129専門領域</strong> を使用。</li>
+        <li>会員向けUIでは診療科コード（例：IM07）は非表示。内部保存・抽出にはコードを使用。</li>
+        <li>【要確認】マスタ内に類似表記が残っています：OT04「その他の科・未指定」とOT07「登録用：その他」／UR06「性感染症科（泌尿器）」とOT06。医師が選択に迷わないよう、Phase 1着手前にマスタの整理をお願いします。</li>
+        <li>主たる専門領域は必須・1件のみ。その他の専門・診療領域は任意・複数。</li>
+        <li>主で選んだ専門領域は、副の候補では disabled とし重複登録を防止。</li>
+        <li>カテゴリ選択＋名称検索の両方から選べる構成。検索は全カテゴリ横断。</li>
+        <li>初期表示はカテゴリ・検索いずれも未選択の案内状態。129件を一度に表示するのは「すべて」タブを選んだ場合のみ。</li>
+        <li>【要すり合わせ】保存イメージ：<code>member_id × major_category_code × specialty_code × is_primary × provenance</code> の縦持ちを想定（Dパネル本体で決定済みの2層専門科構成｜primary_major_category + primary_specialty_code｜と provenance flag に合わせる前提）。本画面（医師本人による自己申告）からの登録は <code>provenance = self_reported</code> として保存する想定。この前提がDパネル側の最新仕様と一致しているか、実装着手前にKUSSHU様と再確認をお願いします。</li>
+      </ul>
+    </div>
+  </details>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-summary"><strong id="footerMain">主専門：未選択</strong><span id="footerSub">その他の専門・診療領域：0件</span></div>
+    <div class="actions"><button class="btn" id="clearBtn" type="button">選択をクリア</button><button class="btn primary" id="confirmBtn" type="button">入力内容を確認する</button></div>
+  </div>
+</footer>
+
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="modal-head"><h3 id="modalTitle">登録内容をご確認ください</h3></div>
+    <div class="modal-body">
+      <div class="confirm-block"><label>主たる専門領域</label><div id="confirmMain"></div></div>
+      <div class="confirm-block"><label>その他の専門・診療領域</label><div id="confirmSub"></div></div>
+      <div class="info-strip" style="margin-top:0">この画面はUI確認用モックです。実際の保存処理は行いません。</div>
+    </div>
+    <div class="modal-foot"><button class="btn" id="closeModal" type="button">戻って修正</button><button class="btn primary" type="button" id="mockSave">この内容で次へ</button></div>
+  </div>
+</div>
+
+<script>
+const categories = [{"code": "IM", "name": "内科系", "items": [{"code": "IM01", "name": "一般内科"}, {"code": "IM02", "name": "総合内科"}, {"code": "IM03", "name": "総合診療科"}, {"code": "IM04", "name": "呼吸器内科"}, {"code": "IM05", "name": "消化器内科"}, {"code": "IM06", "name": "肝臓内科"}, {"code": "IM07", "name": "循環器内科"}, {"code": "IM08", "name": "腎臓内科"}, {"code": "IM09", "name": "糖尿病・代謝・内分泌内科"}, {"code": "IM10", "name": "血液内科"}, {"code": "IM11", "name": "腫瘍内科"}, {"code": "IM12", "name": "脳神経内科"}, {"code": "IM13", "name": "リウマチ・膠原病内科"}, {"code": "IM14", "name": "感染症内科"}, {"code": "IM15", "name": "老年内科"}, {"code": "IM16", "name": "心療内科"}, {"code": "IM17", "name": "アレルギー内科"}, {"code": "IM18", "name": "緩和ケア内科"}]}, {"code": "SG", "name": "外科系", "items": [{"code": "SG01", "name": "一般外科"}, {"code": "SG02", "name": "消化器外科"}, {"code": "SG03", "name": "肝胆膵外科"}, {"code": "SG04", "name": "食道外科"}, {"code": "SG05", "name": "大腸・肛門外科"}, {"code": "SG06", "name": "乳腺外科"}, {"code": "SG07", "name": "内分泌外科"}, {"code": "SG08", "name": "心臓血管外科"}, {"code": "SG09", "name": "血管外科"}, {"code": "SG10", "name": "呼吸器外科"}, {"code": "SG11", "name": "小児外科"}, {"code": "SG12", "name": "移植外科"}, {"code": "SG13", "name": "外傷外科"}, {"code": "SG14", "name": "形成外科"}]}, {"code": "PD", "name": "小児系", "items": [{"code": "PD01", "name": "小児科"}, {"code": "PD02", "name": "小児循環器科"}, {"code": "PD03", "name": "小児神経科"}, {"code": "PD04", "name": "小児腎臓科"}, {"code": "PD05", "name": "小児血液・腫瘍科"}, {"code": "PD06", "name": "新生児科"}, {"code": "PD07", "name": "小児救急科"}, {"code": "PD08", "name": "小児アレルギー科"}]}, {"code": "OG", "name": "産婦人科系", "items": [{"code": "OG01", "name": "産婦人科"}, {"code": "OG02", "name": "産科"}, {"code": "OG03", "name": "婦人科"}, {"code": "OG04", "name": "生殖医療"}, {"code": "OG05", "name": "婦人科腫瘍"}, {"code": "OG06", "name": "周産期医学"}]}, {"code": "PS", "name": "精神科系", "items": [{"code": "PS01", "name": "精神科"}, {"code": "PS02", "name": "児童精神科"}, {"code": "PS03", "name": "老年精神科"}, {"code": "PS04", "name": "依存症精神科"}, {"code": "PS05", "name": "精神科救急"}]}, {"code": "OS", "name": "整形外科系", "items": [{"code": "OS01", "name": "整形外科"}, {"code": "OS02", "name": "脊椎外科"}, {"code": "OS03", "name": "関節外科"}, {"code": "OS04", "name": "手外科"}, {"code": "OS05", "name": "骨軟部腫瘍"}, {"code": "OS06", "name": "スポーツ整形"}, {"code": "OS07", "name": "外傷整形"}]}, {"code": "NS", "name": "脳神経外科系", "items": [{"code": "NS01", "name": "脳神経外科"}, {"code": "NS02", "name": "脳血管外科"}, {"code": "NS03", "name": "脊椎脊髄外科"}, {"code": "NS04", "name": "機能的脳神経外科"}, {"code": "NS05", "name": "小児脳神経外科"}, {"code": "NS06", "name": "神経内視鏡外科"}]}, {"code": "DE", "name": "皮膚科系", "items": [{"code": "DE01", "name": "皮膚科"}, {"code": "DE02", "name": "美容皮膚科"}, {"code": "DE03", "name": "アレルギー皮膚科"}, {"code": "DE04", "name": "皮膚外科"}, {"code": "DE05", "name": "皮膚腫瘍科"}]}, {"code": "UR", "name": "泌尿器科系", "items": [{"code": "UR01", "name": "泌尿器科"}, {"code": "UR02", "name": "小児泌尿器科"}, {"code": "UR03", "name": "女性泌尿器科"}, {"code": "UR04", "name": "泌尿器腫瘍"}, {"code": "UR05", "name": "腎移植・腎不全"}, {"code": "UR06", "name": "性感染症科（泌尿器）"}]}, {"code": "OP", "name": "眼科系", "items": [{"code": "OP01", "name": "眼科"}, {"code": "OP02", "name": "網膜硝子体"}, {"code": "OP03", "name": "緑内障"}, {"code": "OP04", "name": "白内障"}, {"code": "OP05", "name": "角膜・結膜"}, {"code": "OP06", "name": "小児眼科"}, {"code": "OP07", "name": "神経眼科"}]}, {"code": "EN", "name": "耳鼻咽喉科・頭頸部外科系", "items": [{"code": "EN01", "name": "耳鼻咽喉科"}, {"code": "EN02", "name": "頭頸部外科"}, {"code": "EN03", "name": "耳科"}, {"code": "EN04", "name": "鼻科"}, {"code": "EN05", "name": "喉頭・音声外科"}, {"code": "EN06", "name": "めまい・平衡神経"}, {"code": "EN07", "name": "小児耳鼻咽喉科"}]}, {"code": "RD", "name": "放射線科系", "items": [{"code": "RD01", "name": "放射線診断科"}, {"code": "RD02", "name": "放射線治療科"}, {"code": "RD03", "name": "核医学科"}, {"code": "RD04", "name": "IVR"}]}, {"code": "AN", "name": "麻酔科系", "items": [{"code": "AN01", "name": "麻酔科"}, {"code": "AN02", "name": "ペインクリニック"}, {"code": "AN03", "name": "集中治療"}, {"code": "AN04", "name": "周術期管理"}]}, {"code": "EM", "name": "救急・集中治療系", "items": [{"code": "EM01", "name": "救急科"}, {"code": "EM02", "name": "集中治療科"}, {"code": "EM03", "name": "外傷救急"}, {"code": "EM04", "name": "災害医療"}, {"code": "EM05", "name": "総合救急"}]}, {"code": "RH", "name": "リハビリテーション系", "items": [{"code": "RH01", "name": "リハビリテーション科"}, {"code": "RH02", "name": "脳卒中リハ"}, {"code": "RH03", "name": "運動器リハ"}, {"code": "RH04", "name": "心大血管リハ"}, {"code": "RH05", "name": "呼吸リハ"}, {"code": "RH06", "name": "がんリハ"}]}, {"code": "PL", "name": "病理・検査系", "items": [{"code": "PL01", "name": "病理診断科"}, {"code": "PL02", "name": "臨床検査科"}, {"code": "PL03", "name": "細胞診"}, {"code": "PL04", "name": "分子病理・遺伝子診断"}, {"code": "PL05", "name": "輸血・臨床検査医学"}]}, {"code": "OR", "name": "歯科・口腔外科系", "items": [{"code": "OR01", "name": "歯科"}, {"code": "OR02", "name": "口腔外科"}, {"code": "OR03", "name": "歯科口腔外科"}, {"code": "OR04", "name": "矯正歯科"}, {"code": "OR05", "name": "小児歯科"}]}, {"code": "PM", "name": "予防・公衆衛生・産業医系", "items": [{"code": "PM01", "name": "公衆衛生"}, {"code": "PM02", "name": "産業医"}, {"code": "PM03", "name": "健診・予防医学"}, {"code": "PM04", "name": "医療行政"}]}, {"code": "OT", "name": "その他・横断領域", "items": [{"code": "OT01", "name": "在宅医療"}, {"code": "OT02", "name": "家庭医療"}, {"code": "OT03", "name": "スポーツ医学"}, {"code": "OT04", "name": "その他の科・未指定"}, {"code": "OT05", "name": "睡眠障害"}, {"code": "OT06", "name": "感染症内科"}, {"code": "OT07", "name": "登録用：その他"}]}];
+const allItems = categories.flatMap(c => c.items.map(i => ({...i, categoryCode:c.code, categoryName:c.name})));
+const state = {mainCategory:null, subCategory:null, mainSearch:'', subSearch:'', main:null, subs:[]};
+
+const $ = id => document.getElementById(id);
+const norm = s => (s || '').toString().trim().toLowerCase();
+
+function categoryTabs(targetId, type){
+  const el=$(targetId); el.innerHTML='';
+  const q=norm(type==='main'?state.mainSearch:state.subSearch);
+  el.classList.toggle('dim', !!q);
+  const items=[{code:'ALL',name:'すべて'}].concat(categories.map(c => ({code:c.code,name:c.name})));
+  items.forEach(c=>{
+    const b=document.createElement('button'); b.type='button'; b.className='tab';
+    const active=(type==='main'?state.mainCategory:state.subCategory)===c.code;
+    if(active) b.classList.add(type==='main'?'active-main':'active-sub');
+    b.setAttribute('aria-pressed', active ? 'true' : 'false');
+    b.textContent=c.name;
+    b.onclick=()=>{
+      if(type==='main'){ state.mainCategory=c.code; state.mainSearch=''; $('mainSearch').value=''; }
+      else{ state.subCategory=c.code; state.subSearch=''; $('subSearch').value=''; }
+      render();
+    };
+    el.appendChild(b);
+  });
+}
+
+function filtered(type){
+  const q=norm(type==='main'?state.mainSearch:state.subSearch);
+  const cat=type==='main'?state.mainCategory:state.subCategory;
+  if(!q && !cat) return null; // カテゴリ・検索とも未選択＝案内状態
+  return allItems.filter(i=>{
+    const matchQ=!q || norm(i.name).includes(q);
+    const matchCat=q ? true : (cat==='ALL' || i.categoryCode===cat);
+    return matchQ && matchCat;
+  });
+}
+
+function makeChoice(item,type){
+  const b=document.createElement('button'); b.type='button'; b.className='choice';
+  const label=document.createElement('span'); label.className='label';
+  const meta=document.createElement('span'); meta.className='meta'; meta.textContent=item.categoryName;
+  const setLabel=(selected)=>{
+    label.innerHTML='';
+    if(selected){ const chk=document.createElement('span'); chk.className='check'; chk.textContent='✓'; chk.setAttribute('aria-hidden','true'); label.appendChild(chk); }
+    label.appendChild(document.createTextNode(item.name));
+  };
+  b.append(label,meta);
+  if(type==='main'){
+    const active=state.main && state.main.code===item.code;
+    setLabel(active);
+    b.setAttribute('aria-pressed', active ? 'true' : 'false');
+    if(active) b.classList.add('selected-main');
+    b.onclick=()=>{
+      state.main=active?null:item;
+      if(state.main) state.subs=state.subs.filter(x=>x.code!==state.main.code);
+      $('mainError').classList.remove('show');
+      render();
+    };
+  } else {
+    const isMain=state.main && state.main.code===item.code;
+    const selected=state.subs.some(x=>x.code===item.code);
+    setLabel(selected);
+    b.setAttribute('aria-pressed', selected ? 'true' : 'false');
+    if(isMain){b.classList.add('disabled');b.disabled=true;meta.textContent='主で選択済み';}
+    else if(selected) b.classList.add('selected-sub');
+    b.onclick=()=>{
+      if(selected) state.subs=state.subs.filter(x=>x.code!==item.code);
+      else state.subs.push(item);
+      render();
+    };
+  }
+  return b;
+}
+
+function renderGrid(targetId,type,countId){
+  const noteEl=$(type==='main'?'mainSearchNote':'subSearchNote');
+  const q=norm(type==='main'?state.mainSearch:state.subSearch);
+  noteEl.style.display = q ? 'block' : 'none';
+
+  const data=filtered(type);
+  const grid=$(targetId); grid.innerHTML='';
+
+  if(data===null){
+    $(countId).textContent='全129件（19カテゴリ）';
+    const p=document.createElement('div'); p.className='prompt';
+    p.innerHTML='<span class="icon">👆</span><p>カテゴリを選ぶか、上の検索窓で専門領域名を入力してください。</p><small>全件から選びたい場合は「すべて」をタップしてください。</small>';
+    grid.appendChild(p);
+    return;
+  }
+  $(countId).textContent=`表示 ${data.length}件 / 全129件`;
+  if(!data.length){ const e=document.createElement('div');e.className='empty';e.textContent='該当する専門領域がありません。';grid.appendChild(e);return; }
+  data.forEach(i=>grid.appendChild(makeChoice(i,type)));
+}
+
+function renderSelected(){
+  $('mainSelected').innerHTML='';
+  if(state.main){ const x=document.createElement('span');x.className='selected-main-box';x.textContent=state.main.name;$('mainSelected').appendChild(x); }
+  else $('mainSelected').innerHTML='<span class="none">まだ選択されていません</span>';
+  $('subSelected').innerHTML='';
+  if(state.subs.length){ state.subs.forEach(item=>{
+      const t=document.createElement('span');t.className='tag';
+      const txt=document.createElement('span');txt.textContent=item.name;
+      const del=document.createElement('button');del.type='button';del.setAttribute('aria-label',item.name+'を削除');del.textContent='×';
+      del.onclick=()=>{state.subs=state.subs.filter(x=>x.code!==item.code);render();};
+      t.append(txt,del);$('subSelected').appendChild(t);
+    }); } else $('subSelected').innerHTML='<span class="none">選択は任意です</span>';
+  $('footerMain').textContent='主専門：'+(state.main?state.main.name:'未選択');
+  $('footerSub').textContent='その他の専門・診療領域：'+state.subs.length+'件';
+}
+
+function render(){
+  categoryTabs('mainTabs','main'); categoryTabs('subTabs','sub');
+  renderGrid('mainGrid','main','mainCount'); renderGrid('subGrid','sub','subCount'); renderSelected();
+}
+
+$('mainSearch').addEventListener('input',e=>{state.mainSearch=e.target.value; render();});
+$('subSearch').addEventListener('input',e=>{state.subSearch=e.target.value; render();});
+$('clearBtn').onclick=()=>{state.main=null;state.subs=[];state.mainSearch='';state.subSearch='';$('mainSearch').value='';$('subSearch').value='';state.mainCategory=null;state.subCategory=null;render();};
+$('confirmBtn').onclick=()=>{
+  if(!state.main){$('mainError').classList.add('show');$('mainCard').scrollIntoView({behavior:'smooth',block:'center'});return;}
+  $('confirmMain').textContent=state.main.name;
+  $('confirmSub').textContent=state.subs.length?state.subs.map(x=>x.name).join('、'):'なし';
+  $('modalBackdrop').classList.add('show');
+};
+$('closeModal').onclick=()=>$('modalBackdrop').classList.remove('show');
+$('modalBackdrop').addEventListener('click',e=>{if(e.target===$('modalBackdrop')) $('modalBackdrop').classList.remove('show');});
+$('mockSave').onclick=()=>{alert('モックのため保存は行いません。');$('modalBackdrop').classList.remove('show');};
+
+render();
+</script>
+</body>
+</html>
